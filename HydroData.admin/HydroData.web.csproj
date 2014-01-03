@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{853FA164-B7A6-4262-98C5-DC6E35F06EC3}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HydroData</RootNamespace>
+    <AssemblyName>HydroData.web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\packages\DataAnnotationsExtensions.0.6.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.0.6.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcMembership">
+      <HintPath>..\packages\MvcMembership.3.8.0\lib\40\MvcMembership.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.3.18.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\MvcMembership.cs" />
+    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\MvcMembership\Controllers\UserAdministrationController.cs" />
+    <Compile Include="Areas\MvcMembership\Models\UserAdministration\CreateUserViewModel.cs" />
+    <Compile Include="Areas\MvcMembership\Models\UserAdministration\DetailsViewModel.cs" />
+    <Compile Include="Areas\MvcMembership\Models\UserAdministration\IndexViewModel.cs" />
+    <Compile Include="Areas\MvcMembership\Models\UserAdministration\RoleViewModel.cs" />
+    <Compile Include="Areas\MvcMembership\MvcMembershipAreaRegistration.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\StationsController.cs" />
+    <Compile Include="Helpers\logic\MapHelper.cs" />
+    <Compile Include="Helpers\UrlLangAttribute.cs" />
+    <Compile Include="Helpers\MenuItemHelper.cs" />
+    <Compile Include="Models\ObservPart.cs" />
+    <Compile Include="Models\TableValue.cs" />
+    <Compile Include="Models\StationViewModel.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChartsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LangController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MapController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RadarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VarsController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\logic\GeoLocationHelper.cs" />
+    <Compile Include="Helpers\logic\LangHelper.cs" />
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Helpers\logic\DBHelper.cs" />
+    <Compile Include="Helpers\logic\CSVHelper.cs" />
+    <Compile Include="Helpers\MVCHelper.cs" />
+    <Compile Include="Helpers\NumberHelper.cs" />
+    <Compile Include="Helpers\SetCultureAttribute.cs" />
+    <Compile Include="Helpers\SPage.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Areas\Admin\Models\ChartViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\RadarViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TemprViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bg-main-corner-sprite.png" />
+    <Content Include="Content\bg-main.png" />
+    <Content Include="Content\bg-nav-corner-sprite.png" />
+    <Content Include="Content\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen\chosen-sprite.png" />
+    <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\images\pencil_add.png" />
+    <Content Include="Content\images\pencil_delete.png" />
+    <Content Include="Content\images\status_checked.png" />
+    <Content Include="Content\images\status_checked_16.png" />
+    <Content Include="Content\images\status_inserted.png" />
+    <Content Include="Content\images\status_inserted_16.png" />
+    <Content Include="Content\images\status_suspect.png" />
+    <Content Include="Content\images\status_suspect_16.png" />
+    <Content Include="Content\images\status_unchecked.png" />
+    <Content Include="Content\images\status_unchecked_16.png" />
+    <Content Include="Content\MySite.css" />
+    <Content Include="Content\Copy of Site.css" />
+    <Content Include="Content\MvcMembership.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Public\prec_left_small.jpg" />
+    <Content Include="Content\Public\prec_right_small.png" />
+    <Content Include="Content\Public\discharge_left_small.jpg" />
+    <Content Include="Content\Public\discharge_right_small.png" />
+    <Content Include="Content\Public\logo3.jpg" />
+    <Content Include="Content\Public\public_site.css" />
+    <Content Include="Content\Public\prouzek.gif" />
+    <Content Include="Content\Public\rain_hourly_left_small.jpg" />
+    <Content Include="Content\Public\rain_hourly_right_small.png" />
+    <Content Include="Content\Public\snow_left_small.jpg" />
+    <Content Include="Content\Public\snow_right_small.png" />
+    <Content Include="Content\Public\styl_grafy_start.css" />
+    <Content Include="Content\Public\temperature_left_small.jpg" />
+    <Content Include="Content\Public\temperature_right_small.png" />
+    <Content Include="Content\Public\vlajky_cz.gif" />
+    <Content Include="Content\Public\vlajky_en.gif" />
+    <Content Include="Content\Public\stage_left_small.jpg" />
+    <Content Include="Content\Public\stage_right_small.png" />
+    <Content Include="Global.asax" />
+    <Content Include="Areas\MvcMembership\Views\Web.config" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\UsersRoles.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\Role.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\Password.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\Index.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\Details.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\UserAdministration\CreateUser.cshtml" />
+    <Content Include="Scripts\jquery.ui.datepicker-cs.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Charts\Index.cshtml" />
+    <Content Include="Views\Stations\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\MvcMembership\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Lang\BigTexts.cshtml" />
+    <Content Include="Areas\Admin\Views\Lang\EditBigText.cshtml" />
+    <Content Include="Areas\Admin\Views\Lang\TextsPage.cshtml" />
+    <None Include="Properties\PublishProfiles\web_deploy.pubxml" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\jqplot.barRenderer.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Content\jquery.jqplot.min.css" />
+    <Content Include="Scripts\jquery.jqplot.min.js" />
+    <Content Include="Scripts\site\Site.js" />
+    <Content Include="Scripts\site\widget.autocomplete.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\About.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\_PageNav.cshtml" />
+    <Content Include="Views\Shared\_Date.cshtml" />
+    <Content Include="Areas\Admin\Views\Station\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Station\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Station\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Radar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Log\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\autocomplete.cshtml" />
+    <Content Include="Areas\Admin\Views\Charts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Vars\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Chart.cshtml" />
+    <Content Include="Areas\Admin\Views\Charts\_partChartTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Charts\Table.cshtml" />
+    <Content Include="Areas\Admin\Views\Vars\_Details.cshtml" />
+    <Content Include="Views\Shared\_LangSwitcher.cshtml" />
+    <Content Include="Views\Shared\partTranslate.cshtml" />
+    <Content Include="Areas\Admin\Views\Lang\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Charts\_UploadResult.cshtml" />
+    <Content Include="Areas\Admin\Views\Map\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutPublic.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HydroData.Data\HydroData.Data.csproj">
+      <Project>{ba6012d8-623d-4274-88ac-249d57fe7840}</Project>
+      <Name>HydroData.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62220</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:84</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

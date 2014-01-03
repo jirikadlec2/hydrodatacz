@@ -1,0 +1,166 @@
+﻿@model HydroData.admin.Models.ChartViewModel
+@{
+    var gr1 = Model.Items.GroupBy(x => x.DateTime.Date);
+
+    var xx = gr1.Select(x => x.Key.Day).ToArray();
+    float[] yy;
+    if (Model.VarId == 1 || Model.VarId == 2)
+    {
+        yy = gr1.Select(x => x.Sum(k => k.ValueForCalc(Model.VarId))).ToArray();
+    }
+    else
+    {
+        yy = gr1.Select(x => x.Average(k => k.ValueForCalc(Model.VarId))).ToArray();
+    }
+
+    //var stat = Model.Stations.FirstOrDefault(x => x.Value == Model.StatId + "");
+    var stName = "";
+    //if (stat != null) { stName = stat.Text; }
+    var chartTitle = string.Format("{0}(ID={1})", stName, Model.StatId);
+
+    var chartData = "";
+    for (int i = 0; i < xx.Length; i++)
+    {
+        chartData += string.Format("[{0},{1}],", xx[i], yy[i].ToStrWith());
+    }
+    chartData = chartData.TrimEnd(',');
+
+    if (string.IsNullOrEmpty(chartData)) { chartData = "[]"; }
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.edit').click(function (ev) {
+
+            $.ajax({
+                url: $(this).attr('href'),
+                success: function (data) {
+                    $("#dialog").html(data);
+                }
+            });
+            $("#dialog").dialog('open');
+            ev.preventDefault();
+        });
+
+        $('#dialog').dialog({ autoOpen: false, modal: true, width: 900 });
+
+        $.jqplot('chart_div_table', [[@Html.Raw(chartData)]],
+            {
+                title: '@chartTitle',
+                show: true,
+                axes: { xaxis: { min: 1, max: 31, tickInterval: 1 } },
+                series: [{
+                    color: '#5FAB78',
+                    //renderer: $.jqplot.BarRenderer,
+                    rendererOptions: {
+
+                        animation: {
+                            speed: 2500
+                        },
+                        barWidth: 10,
+                        barPadding: -15,
+                        barMargin: 0,
+                        highlightMouseOver: false
+                    }
+                }]
+            });
+
+    });
+</script>
+
+
+<div id="dialog" title="Edit values">
+</div>
+
+<div style="margin-top: 15px;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 80%;">
+                <div id="chart_div_table"></div>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <th>Summary: @Model.Date.Value.ToString("M/yyyy")</th>
+
+                    </tr>
+                    @if (yy.Any())
+                    { 
+                        <tr>
+                            <td><b>Max:</b> @yy.Max()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Min:</b> @yy.Min()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Avg:</b> @yy.Average()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Sum:</b> @yy.Sum()</td>
+
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="margin-top: 15px;">
+    @Model.VarName
+    <table>
+        <tbody>
+            @{int count = 0;}
+
+            @foreach (var gr in Model.Items.GroupBy(x => x.DateTime.Date))
+            {
+                if ((count++) % 10 == 0)
+                { 
+                <tr style="height: 22px">
+                    <th>Date/Hour
+                    </th>
+
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        <th>
+                            @i
+                        </th>
+                    }
+                </tr>
+                }
+            
+                <tr>
+                    <td>
+                        <span class="display-mode">@gr.Key.ToShortDateString()</span>
+
+                    </td>
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        <td>
+                            <span class="display-mode">
+                                @{var v = gr.FirstOrDefault(x => x.DateTime >= gr.Key.AddHours(i) && x.DateTime < gr.Key.AddHours(i + 1));}
+                                @if (v != null)
+                                { 
+                                    @v.TextValue(Model.VarId)
+                                }
+                            </span>
+
+                        </td>
+                    }
+                    <td>
+                        @Html.ActionLink("Edit", "Details", "Vars",
+                        new { varid = Model.VarId, statid = Model.StatId, date = gr.Key.ToShortDateString() }, new { @class = "edit"})
+
+                        @*<a href="#" class="edit">Edit</a>*@
+
+                    </td>
+                </tr>
+            
+            }
+        </tbody>
+    </table>
+</div>

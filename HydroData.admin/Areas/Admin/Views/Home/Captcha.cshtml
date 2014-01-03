@@ -1,0 +1,10 @@
+﻿@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Captcha";
+}
+@using (Html.BeginForm("Captcha", "Home"))
+{ 
+    @Html.Captcha(3)
+    <input type="submit" name="add" value="send" />
+}
+@TempData["Message"]

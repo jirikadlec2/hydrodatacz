@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Table";
+}
+@model HydroData.admin.Models.ChartViewModel
+@section head{
+     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <script src="@Url.Content("~/Scripts/jquery.jqplot.min.js")"></script>
+    <link href="@Url.Content("~/Content/jquery.jqplot.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jqplot.barRenderer.min.js")"></script>
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.date').datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: "@Helper.DATE_FORMAT"
+            //onClose: function () { $(this).valid(); }
+        });
+        //$("#StatId").combobox();
+
+
+        $('#VarId').change(function () {
+            var varId = $(this).val();
+            if (varId != null && varId != '') {
+                $.getJSON('@Url.Action("GetStations")', { varId: varId }, function (stat) {
+
+                    var statSelect = $('#StatId');
+                    statSelect.empty();
+                    $.each(stat, function (index, stat) {
+                        statSelect.append($('<option/>', {
+                            value: stat.value,
+                            text: stat.text
+                        }));
+                    });
+                    //$("#StatId").combobox();
+                });
+            }
+        });
+
+        $('form').submit(function () {
+            if (true) {
+                $.ajax({
+                    url: '@Url.Action("Search")',
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#results').html(result);
+                       
+                    }
+                });
+                
+            }
+            return false;
+        });
+
+        $('.next').click(function (ev) {
+            $('input[type=hidden]').val("next");
+            $('form').submit();
+            ChangeDate(1);
+            ev.preventDefault();
+        });
+
+        $('.prev').click(function (ev) {
+            $('input[type=hidden]').val("prev");
+            $('form').submit();
+            ChangeDate(-1);
+            ev.preventDefault();
+        });
+        $('.show').click(function (ev) {
+            $('input[type=hidden]').val("show");
+            $('form').submit();
+            ev.preventDefault();
+        });
+        function ChangeDate(m) {
+            var myDate = $('.date').val();
+            var d = $.datepicker.parseDate('dd.mm.yy', myDate);
+            d.setMonth(d.getMonth() + m);
+            $('.date').val($.datepicker.formatDate('dd.mm.yy', d));
+        }
+
+
+    });
+</script>
+
+
+
+<h2>Chart</h2>
+@*using (Html.BeginForm("Index", "Charts", FormMethod.Post, new { id = "f_show" }))*@
+@using (Html.BeginForm("Search"))
+{
+    <table style="width: 70%;">
+        <tr>
+            <td style="width: 30%;">Select variable:</td>
+            <td>@Html.DropDownListFor(m => m.VarId, Model.Vars, "---select variable---")</td>
+
+        </tr>
+        <tr>
+            <td>Select station:</td>
+            <td>@Html.DropDownListFor(m => m.StatId, Model.Stations, "---select station---")</td>
+
+        </tr>
+        <tr>
+            <td>Select date:</td>
+            <td>
+                <input class="date" id="date" name="date" type="text" value="@Model.Date.Value.ToShortDateString()"/>
+                @*@Html.TextBox("date", Model.Date, new { @class = "date" })*@
+            </td>
+
+        </tr>
+    </table>
+    <input type="hidden" name="act" value="" />
+   <a href="" class="button-link show">Show</a>
+    @*<input type="submit" value="Show" />*@
+}
+
+<div style="margin-top: 15px;">
+    <a href="" class="button-link prev">Prev Month</a>
+    <a href="" class="button-link next">Next Month</a>
+</div>
+
+
+@*@Html.Partial("_partChartTable", Model.Items)*@
+
+<div id="results"></div>
+

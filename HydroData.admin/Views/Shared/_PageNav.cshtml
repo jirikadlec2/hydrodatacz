@@ -1,0 +1,19 @@
+﻿@model Helpers.SPage
+@{
+    var curr = Model.CurrPage;
+
+    var lng = LangHelper.SiteLang;
+    var UrlTmpl = String.Format("/{0}{1}", lng, Helper.Sub) + Model.UrlTempl;
+}
+<table class="sort_options" style="font-weight: bold;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="@String.Format(UrlTmpl, 1)" class="button-link">@T.Text("text.First")</a>
+                <a href="@String.Format(UrlTmpl, curr > 1 ? curr - 1 : 1)" class="button-link">@T.Text("text.Previous")</a>
+                <a href="@String.Format(UrlTmpl, curr < Model.TotalPages ? curr + 1 : Model.TotalPages)"class="button-link">@T.Text("text.Next")</a>
+                <a href="@String.Format(UrlTmpl, Model.TotalPages)"class="button-link">@T.Text("text.Last")</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

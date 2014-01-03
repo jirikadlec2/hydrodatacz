@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@{
+    var arr = "";
+    foreach (var rr in ((List<Data.river>)ViewBag.river1))
+    {
+        arr += string.Format("'{0}',", rr.riv_name);
+    }
+    arr = arr.TrimEnd(',');
+}
+@section head{
+    <script src="../../Scripts/chosen.jquery.min.js"></script>
+    <script>
+        $(function () {
+            var availableTags = [@Html.Raw(arr)];
+
+            $("#tags").autocomplete({
+                source: availableTags,
+                select: function (event, ui) {
+                   $.get( '/station/GetRiverId', { name: this.value },
+                   function (res) {
+                       $('#riv_id').val(res);
+                   });
+                return false;
+            }
+            });
+        });
+    </script>
+}
+<div class="ui-widget">
+  
+    type river name:<input id="tags" /> 
+    <br />
+    river id:<input id="riv_id" />
+</div>

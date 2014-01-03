@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "BigTexts";
+}
+@model PetaPoco.Page<Data.SiteBigText>
+<h2>@T.Text("bodyheader.langbigtexts")</h2>
+
+@T.Text("page") @Model.CurrentPage @T.Text("out_of") @Model.TotalPages
+
+@Html.Partial("_PageNav", new Helpers.SPage { UrlTempl = ViewBag.PagingUrl, CurrPage = Model.CurrentPage, TotalPages = Model.TotalPages })
+
+<br />
+<table>
+    <tbody>
+        <tr style="height: 22px">
+            <th>[TextId] 
+            </th>
+            <th>[text_en] 
+            </th>
+            <th>[text_cz] 
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var pp in Model.Items)
+        {
+          
+            <tr>
+                <td>
+                    @pp.TextId
+                </td>
+                <td>
+                    @Helper.Substring(pp.Text0, 150)
+                </td>
+                <td>
+                    @Helper.Substring(pp.Text1, 150)
+                </td>
+                <td>
+                    @Html.ActionLink(T.Text("edit"), "editbigtext", "lang",
+                           new { id = pp.Id }, null)
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

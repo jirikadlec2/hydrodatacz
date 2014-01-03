@@ -1,0 +1,12 @@
+﻿@model DateTime?
+@if (Model.HasValue)
+{
+    @Html.TextBox("date", Model.Value.ToShortDateString(), new { @class = "date" }) 
+}
+else
+{
+    @Html.TextBox("date", string.Empty) 
+}
+<script type="text/javascript">
+    $(document).ready(function () { $('.date').datepicker({ dateFormat: "mm/dd/yy" }); });
+</script>

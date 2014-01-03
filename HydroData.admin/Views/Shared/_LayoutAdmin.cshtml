@@ -1,0 +1,58 @@
+﻿@using Helpers
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/MySite.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+
+    <script src="@Url.Content("~/Scripts/site/site.js")"></script>
+    @RenderSection("head", required: false)
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <div id="title">
+                <h1>hydrodata.cz</h1>
+            </div>
+            <div id="logindisplay">
+                @Html.Partial("_LogOnPartial")
+                @Html.Partial("_LangSwitcher")
+            </div>
+            <div id="menucontainer">
+                <ul id="menu">
+
+                    @Html.MenuItem(T.Text("Home"), "index", "home", new { Area = "" })
+                    @Html.MenuItem(T.Text("Charts"), "index", "charts", new { Area = "" })
+                    @Html.MenuItem(T.Text("Stations"), "index", "stations", new { Area = "" })
+                    @Html.MenuItem(T.Text("Maps"), "index", "map", new { Area = "" })
+                    @Html.MenuItem(T.Text("About"), "about", "home", new { Area = "" })
+
+
+
+                @*    @if (LangHelper.Locale == "en-US")
+                    {
+                        <li><a class="cs" href="/cz/">Česky</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="en" href="/en/">English</a></li>
+                    }*@
+
+
+                </ul>
+            </div>
+        </div>
+        <div id="main">
+            @RenderBody()
+            <div id="footer">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</body>
+</html>

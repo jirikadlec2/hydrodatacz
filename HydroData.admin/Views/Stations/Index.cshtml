@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = T.Text("title.stations");
+}
+@model HydroData.Public.Models.StationViewModel
+<script>
+
+    $(function () {
+        $("#f_show").submit(function (event) {
+            event.preventDefault();
+            var vname = $('#VarName').val();
+            var url = '@Helper.PageUrl("stations")' + vname;
+            window.location.href = url;
+        });
+    });
+
+</script>
+
+<div id="hlavni">
+
+
+    <h1>@T.Text("List of stations"): @T.Text(Model.VarPageName)</h1>
+
+    @using (Html.BeginForm("index", "stations", FormMethod.Post, new { id = "f_show" }))
+    {
+        <fieldset>
+            <div>
+                <span>
+                    <label id="lbl_station_type" for="select_station_type">
+                        @T.Text("Type of observation"):</label>
+                    @Html.DropDownListFor(m => m.VarName, Model.Vars, string.Format("--{0}--", T.Text("text.SelectVariable")))
+                </span>
+
+                <span>
+                    <input type="submit" tabindex="3" value="@T.Text("show")">
+                </span>
+            </div>
+        </fieldset>
+    }
+    @{
+        var grid = new WebGrid(Model.Stations);
+
+        List<WebGridColumn> cols;
+
+        cols = new List<WebGridColumn> 
+        { 
+            grid.Column( columnName:"st_name",header: T.Text("Station")), 
+            grid.Column("altitude", header:T.Text("Elevation")+" (m)"),
+            grid.Column("StartObservDate", header:T.Text("Start date")),
+            grid.Column("LastObservDate", header:T.Text("End date")),
+        };
+
+        if (!string.IsNullOrEmpty(Model.VarName))
+        {
+            cols.Add(
+                grid.Column("chart",
+                header: T.Text("chart"),
+                canSort: false,
+                format: item =>
+            Html.ActionLink(T.Text("chart"), "Index", "charts",
+                           new
+                           {
+                               varname = Model.VarName,
+                               sturi = item.UrlParm
+                           }, null)
+
+                ));
+        }
+
+        if (Model.VarId == 4 || Model.VarId == 5)
+        {
+            cols.Insert(1, grid.Column("River.riv_name", header: T.Text("River")));
+        }
+     
+    }
+    <div style="margin-top: 15px;">
+        @grid.GetHtml(columns: cols)
+    </div>
+
+</div>

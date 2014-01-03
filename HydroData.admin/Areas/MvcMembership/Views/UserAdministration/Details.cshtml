@@ -1,0 +1,65 @@
+@using System.Globalization
+@model HydroData.admin.Areas.MvcMembership.Models.UserAdministration.DetailsViewModel
+@{
+    ViewBag.Title = T.Text("UserDetails")+":" + Model.DisplayName;
+}
+
+<link href='@Url.Content("~/Content/MvcMembership.css")' rel="stylesheet" type="text/css" />
+
+<h2 class="mvcMembership">@T.Text("UserDetails"): @Model.DisplayName [@Model.Status]</h2>
+
+<ul class="mvcMembership-tabs">
+	<li>Details</li>
+	<li>@Html.ActionLink("Password", "Password", "UserAdministration", new { id = Model.User.ProviderUserKey }, null)</li>
+	@if(Model.IsRolesEnabled){
+	<li>@Html.ActionLink("Roles", "UsersRoles", "UserAdministration", new { id = Model.User.ProviderUserKey }, null)</li>
+	}
+</ul>
+
+<h3 class="mvcMembership">@T.Text("text.Account")</h3>
+<div class="mvcMembership-account">
+	<dl class="mvcMembership">
+		<dt>@T.Text("text.UserName"):</dt>
+			<dd>@Model.User.UserName</dd>
+		<dt>@T.Text("text.EmailAddress"):</dt>
+			<dd><a href="mailto:@Model.User.Email">@Model.User.Email</a></dd>
+		@if(Model.User.LastActivityDate == Model.User.CreationDate){
+		<dt>@T.Text("text.LastActive"):</dt>
+			<dd><em>Never</em></dd>
+		<dt>@T.Text("text.LastLogin"):</dt>
+			<dd><em>Never</em></dd>
+		}else{
+		<dt>@T.Text("text.LastActive"):</dt>
+			<dd>@Model.User.LastActivityDate.ToString("MMMM dd, yyyy h:mm:ss tt", CultureInfo.InvariantCulture)</dd>
+		<dt>Last Login:</dt>
+			<dd>@Model.User.LastLoginDate.ToString("MMMM dd, yyyy h:mm:ss tt", CultureInfo.InvariantCulture)</dd>
+		}
+		<dt>@T.Text("text.Created"):</dt>
+			<dd>@Model.User.CreationDate.ToString("MMMM dd, yyyy h:mm:ss tt", CultureInfo.InvariantCulture)</dd>
+	</dl>
+
+	@using(Html.BeginForm("ChangeApproval", "UserAdministration", new{ id = Model.User.ProviderUserKey })){
+		@Html.Hidden("isApproved", !Model.User.IsApproved)
+		<input type="submit" value='@(Model.User.IsApproved ? "Unapprove" : "Approve") Account' />
+	}
+	@using(Html.BeginForm("DeleteUser", "UserAdministration", new{ id = Model.User.ProviderUserKey })){
+		<input type="submit" value="Delete Account" />
+	}
+</div>
+
+<h3 class="mvcMembership">@T.Text("text.EmailAddress&Comments")</h3>
+<div class="mvcMembership-emailAndComments">
+	@using(Html.BeginForm("Details", "UserAdministration", new{ id = Model.User.ProviderUserKey })){
+	<fieldset>
+		<p>
+			<label for="email">@T.Text("text.EmailAddress"):</label>
+			@Html.TextBox("email", Model.User.Email)
+		</p>
+		<p>
+			<label for="comments">@T.Text("text.Comments"):</label>
+			@Html.TextArea("comments", Model.User.Comment)
+		</p>
+		<input type="submit" value="@T.Text("text.SaveEmailAddressandComments")" />
+	</fieldset>
+	}
+</div>

@@ -1,0 +1,59 @@
+﻿<div id="translate_modal" style="display: none; cursor: default">
+    id:<input id="elemId" type="text" />
+    <br />
+   
+    <input type="button" id="yes" value="@T.Text("translate")" />
+    <table style="width: 80%;">
+        <tr>
+            <td>En
+            </td>
+            <td>
+                <textarea id="Text0" cols="70" rows="7"> </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>CS
+            </td>
+            <td>
+                <textarea id="Text1" cols="70" rows="7"></textarea>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+<script>
+    $(function () {
+        // Load dialog on page load
+
+        $("#translate_modal").dialog({ autoOpen: false, height: 400, width: 600 });
+
+        $('.trans_element').click(function (e) {
+            var id = $(this).attr('id');
+            $('#elemId').val(id);
+            //$('#txtTranslate').text($(this).text());
+
+            var dialog = $("#translate_modal").dialog('open');;
+
+            $.getJSON("@Helper.Sub/Lang/GetText/" + id, null,
+                function (data) {
+                    $("#Text0").val(data.en);
+                    $("#Text1").val(data.cz);
+                });
+
+            return false;
+        });
+
+        $('#yes').click(function () {
+            $.post("@Helper.Sub/Lang/TranslateText",
+                    { id: $('#elemId').val(), text0: $("#Text0").val(), text1: $("#Text1").val() },
+                    function (response) {
+                        $("#translate_modal").dialog('close');
+                        location.reload();
+                    });
+        });
+
+    });
+
+</script>

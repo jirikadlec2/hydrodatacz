@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "Map:Index";
+}
+
+@model List<Data.station>
+@section head{
+
+    <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"
+        type="text/javascript"></script>
+
+}
+<script>
+
+    $(function () {
+        $("#Stat").chosen();
+    });
+
+</script>
+
+@using (Html.BeginForm("Index", "Map", FormMethod.Post, new { id = "f_show" }))
+{
+    <table>
+        <tr>
+            <td style="width: 30%;">@T.Text("text.SelectVariable"):</td>
+            <td>@Html.DropDownList("varid", (SelectList)ViewBag.Vars, string.Format("--{0}--", T.Text("text.SelectVariable")))</td>
+
+        </tr>
+        <tr>
+            <td>@T.Text("text.SelectOperator"):</td>
+            <td>
+                @Html.DropDownList("Operator", "--" + T.Text("text.SelectOperator") + "--")
+            </td>
+        </tr>
+         <tr>
+            <td>@T.Text("text.SelectObservDatePeriod"):</td>
+            <td>
+                @Html.DropDownList("period", "--" + T.Text("text.SelectDatePeriod") + "--")
+            </td>
+        </tr>
+          <tr>
+            <td>@T.Text("text.Address"):</td>
+            <td>
+                @Html.TextBox("address")
+            </td>
+        </tr>
+    </table>
+    <br />
+    
+    <input type="submit" name="show" value="@T.Text("show")" />
+    <input type="submit" name="findbyaddr" value="@T.Text("findbyaddress")" />
+}
+
+@T.Text("query time"): @ViewBag.elapsed
+<br />
+@T.Text("markers count"): @Model.Count
+<br />
+@T.Text("found places") :
+<br /> @Html.Raw(ViewBag.findresult)
+
+<div id="map" style="width: 600px; height: 600px;"></div>
+@{
+    string data = "";
+    var slat = "50";
+    var slon = "15";
+    
+    foreach (var st in Model)
+    {
+        var link1 = Html.ActionLink(T.Text("link.GoToStationObservation"), "Index", "Vars",
+            new { varid = ViewBag.varid, statid = st.st_id, date = st.LastObservDate.ToShortDate() }, new { target = "_blank" });
+
+
+        var link2 = Html.ActionLink(T.Text("link.GoToChart"), "Index", "Charts",
+                       new { varid = ViewBag.varid, statid = st.st_id, date = st.LastObservDate.ToShortDate() }, new { target = "_blank" });
+
+        var info = string.Format("{0}<br /> {1} <br />{2}<br />last obs date {3}<br /> last obs table: {4}",
+            st.st_name, link1, link2, st.LastObservDate, st.LastObservTName);
+
+        data += string.Format("['{0}',{1},{2}],", info,
+        st.lat.ToStrWithPoint(), st.lon.ToStrWithPoint());
+    }
+    // find by address
+    int zoom=7;
+    var loc = (string[])ViewBag.Place;
+    if (loc != null) {
+        zoom = 11;
+        slat = loc[0];
+        slon = loc[1];
+    }
+    
+}
+<script type="text/javascript">
+    var locations = [@Html.Raw(data.TrimEnd(','))];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: @zoom,
+        center: new google.maps.LatLng(@slat, @slon),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+</script>
+
+<span onclick="$('#table').toggle();"><a class="Clicable">show stations</a></span>
+
+<div id="table" style="display: none; cursor: default; border: 1px solid blue;">
+    <table>
+        <tbody>
+            <tr style="height: 22px">
+                <th>Station name
+                </th>
+                <th>operator
+                </th>
+                <th>lat
+                </th>
+                <th>lon
+                </th>
+                <th>last observ date
+                </th>
+            </tr>
+            @foreach (var pp in Model.OrderBy(x=>x.LastObservDate))
+            {
+          
+                <tr>
+                    <td>@pp.st_name</td>
+                    <td>@pp.operator_id</td>
+                    <td>@Convert.ToDecimal(pp.lat).ToString("0.000000")</td>
+                    <td>@Convert.ToDecimal(pp.lon).ToString("0.000000")</td>
+                    <td>@pp.LastObservDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

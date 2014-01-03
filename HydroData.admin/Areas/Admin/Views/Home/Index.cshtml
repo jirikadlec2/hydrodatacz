@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@{ var sub = Helper.Sub;}
+
+@T.Text("title.Observations")
+
+<ul>
+    @foreach (var item in Helper.VarsTable)
+    {
+        <li>
+            @Html.ActionLink(T.Text(item.PageName), "index", "vars", new { Area = "admin", varid = item.Id }, null)
+            @*<a href="@(sub)/Vars?varid=@item.Id">@T.Text(item.PageName)</a>*@
+
+        </li>
+    }
+</ul>
+
+
+<ul>
+    <li>@Html.ActionLink(T.Text("link.ChartModule"), "Index", "charts", new { Area = "admin" }, null)</li>
+    <li>@Html.ActionLink(T.Text("link.RadarModule"), "Index", "radar", new { Area = "admin" }, null)</li>
+    <li>@Html.ActionLink(T.Text("link.EditStation"), "Index", "station", new { Area = "admin" }, null)</li>
+    <li>@Html.ActionLink(T.Text("link.Map"), "Index", "map", new { Area = "admin" }, null)</li>
+    <li>@Html.ActionLink(T.Text("link.LogPage"), "Index", "log", new { Area = "admin" }, null)</li>
+
+    @* <li><a href="@(sub)/Charts">@T.Text("link.ChartModule")</a></li>
+    <li><a href="@(sub)/Radar">@T.Text("link.RadarModule")</a></li>
+    <li><a href="@(sub)/Station">@T.Text("link.EditStation")</a></li>
+    <li><a href="@(sub)/Map">@T.Text("link.Map")</a></li>
+    <li><a href="/MvcMembership/UserAdministration">@T.Text("link.UserManagment")</a></li>
+    <li><a href="@(sub)/Log">@T.Text("link.LogPage")</a></li>*@
+    <li>@Html.ActionLink(T.Text("link.UserManagment"), "Index", "UserAdministration", new { Area = "MvcMembership" }, null)</li>
+
+</ul>
+
+@using (Html.BeginForm("Index", "Home"))
+{   
+    @T.Text("Update last obs dates")
+    <br />  
+    foreach (var item in (SelectList)ViewBag.vars)
+    {
+    <input id="@item.Value" name="vars" type="checkbox" value="@item.Value"/>@item.Text  
+    <br />
+    }
+    @ViewBag.elapsed
+    <br />
+    <input type="submit" name="update" value="@T.Text("Update")" />
+}
+@using (Html.BeginForm("clearcache", "home"))
+{   
+    @Html.Raw(ViewBag.CacheItems)
+    <br />@*
+    @T.Text("clear cache")
+       <br />*@
+    <input type="submit" name="clear" value="@T.Text("Clear")" />
+}

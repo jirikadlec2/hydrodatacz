@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = T.Text("title.start");
+}
+@using HydroData.Models;
+
+@{
+    var parts = new Dictionary<int, ObservPart>
+    {
+     {8, new ObservPart { 
+         title = T.Text("snow"),
+         url1="http://grafy.plaveniny.cz/en/snow/kocelovice/20070327/78w.aspx",
+         im1 ="/Content/Public/snow_left_small.jpg", 
+         url2 ="http://grafy.plaveniny.cz/en/snow/churanov/20070330/20w.aspx",
+         im2="/Content/Public/snow_right_small.png"
+         
+     }},
+     
+     {2, new ObservPart { 
+         title = T.Text("Precipitation"),
+         url1="",
+         im1 ="/Content/Public/prec_left_small.jpg", 
+         url2 ="",
+         im2="/Content/Public/prec_right_small.png"
+         
+     }},
+     
+     {4, new ObservPart { 
+         title = T.Text("Rivers - water stage"),
+         url1="",
+         im1 ="/Content/Public/stage_left_small.jpg", 
+         url2 ="",
+         im2="/Content/Public/stage_right_small.png"
+         
+     }},
+     
+      {5, new ObservPart { 
+         title = T.Text("Rivers - Discharge"),
+         url1="",
+         im1 ="/Content/Public/discharge_left_small.jpg", 
+         url2 ="",
+         im2="/Content/Public/discharge_right_small.png"
+         
+     }},
+       {1, new ObservPart { 
+         title = T.Text("Hourly Rainfall"),
+         url1="",
+         im1 ="/Content/Public/rain_hourly_left_small.jpg", 
+         url2 ="",
+         im2="/Content/Public/rain_hourly_right_small.png"
+         
+     }},
+     
+     {16, new ObservPart { 
+         title = T.Text("Temperature"),
+         url1="",
+         im1 ="/Content/Public/temperature_left_small.jpg", 
+         url2 ="",
+         im2="/Content/Public/temperature_right_small.png"
+         
+     }},
+    };   
+    
+   
+}
+
+<div id="hlavni">
+
+    <h1>@T.Text("bodyheader.start")</h1>
+
+    @foreach (var part in parts)
+    {
+        <div class="photo_div">
+            <h2>@Html.ActionLink(part.Value.title, "Index", "charts",
+        new { varname = Helper.GetRouteVar(part.Key) }, null) </h2>
+
+            <a href="@Helper.GetRandomStationUrl(part.Key)">
+                <img src="@part.Value.im1" 
+                    alt="@T.Text(string.Format("start.{0}.left_image_title", Helper.Vars[part.Key].PageName))" 
+                    title="@T.Text(string.Format("start.{0}.left_image_title", Helper.Vars[part.Key].PageName))"></a>
+
+            <a href="@Helper.GetRandomStationUrl(part.Key)">
+                <img class="graf" src="@part.Value.im2" 
+                    title="@T.Text(string.Format("start.{0}.right_image_title", Helper.Vars[part.Key].PageName))" 
+                    alt="@T.Text(string.Format("start.{0}.right_image_title", Helper.Vars[part.Key].PageName))"></a>
+
+            <p>
+                @Html.Raw(string.Format(T.Text("start.description." + Helper.Vars[part.Key].PageName)
+                , Html.ActionLink(string.Format("{0} {1}", Data.Repo.GetStations(part.Key, true).Count, T.Text("locations")), "Index", "stations",
+        new { varname = Helper.GetRouteVar(part.Key) }, new { title = "list of locations with " + part.Value + " data" })))
+
+            </p>
+        </div>
+    }
+
+
+</div>
+<!-- konec vlastniho obsahu -->

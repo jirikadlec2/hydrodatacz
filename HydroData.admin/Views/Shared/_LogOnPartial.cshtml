@@ -1,0 +1,42 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <text>@T.Text("Welcome") <strong>@User.Identity.Name</strong>!
+    [ @Html.ActionLink(T.Text("Log Off"), "LogOff", "Account", new { Area = "" }, null) ]
+
+    </text>
+}
+else
+{
+    @:[ @Html.ActionLink(T.Text("Log On"), "LogOn", "Account", new { Area = "" }, null) ]
+}
+
+@if (Helper.IsAdmin(User.Identity.Name))
+{ 
+    @Html.ActionLink(T.Text("Admin"), "index", "home", new { Area = "Admin" }, null)
+    @:|
+    @Html.ActionLink(T.Text("Translate"), "index", "lang", new { Area = "Admin" }, new { @class = "translate" })
+ 
+        @*
+    <script type="text/javascript">
+        $(function () {
+
+            $('.translate').click(function (ev) {
+
+                $.ajax({
+                    url: '@Url.Action("textspage", "lang", new { Area = "Admin" })',
+                    success: function (data) {
+                        $("#transl_dialog").html(data);
+                    }
+                });
+                $("#transl_dialog").dialog('open');
+                ev.preventDefault();
+            });
+
+            $('#transl_dialog').dialog({ autoOpen: false, modal: true, width: 900 });
+        });
+    </script>
+    
+    <div id="transl_dialog" title="Edit values">
+    </div>*@
+  
+}

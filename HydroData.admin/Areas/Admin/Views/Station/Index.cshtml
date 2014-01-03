@@ -1,0 +1,81 @@
+﻿@model List<Data.station>
+@{
+    ViewBag.Title = "Stations:Index";
+}
+@section head{
+
+    <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+
+}
+<script>
+
+    $(function () {
+        $("#Stat").chosen();
+    });
+
+</script>
+
+@using (Html.BeginForm("Index", "Station", FormMethod.Post, new { id = "f_show" }))
+{
+    <table>
+        <tr>
+            <td>@T.Text("text.SelectStation"): </td>
+            <td style="width: 250px;">
+                @Html.DropDownList("Stat", "--" + T.Text("text.SelectStation") + "--")
+            </td>
+        </tr>
+        <tr>
+            <td>@T.Text("text.SelectOperator"):</td>
+            <td>
+                @Html.DropDownList("Operator", "--" + T.Text("text.SelectOperator") + "--")
+            </td>
+        </tr>
+    </table>
+    <br />
+    
+    <input type="submit" name="act" value="@T.Text("show")" />
+}
+
+
+<h2>@T.Text("text.Stations") </h2>
+@Html.ActionLink(T.Text("Create new"), "Create")
+<br />
+<br />
+
+<table>
+    <tbody>
+        <tr style="height: 22px">
+            <th>Station name
+            </th>
+            <th>operator
+            </th>
+            <th>lat
+            </th>
+            <th>lon
+            </th>
+            <th>Meteo code
+            </th>
+        </tr>
+        @foreach (var pp in Model)
+        {
+          
+            <tr>
+                <td>@pp.st_name</td>
+                <td>@pp.operator_id</td>
+                <td>@(pp.lat.HasValue?Convert.ToDecimal(pp.lat).ToString("0.000000"):"")</td>
+                <td>@(pp.lat.HasValue?Convert.ToDecimal(pp.lon).ToString("0.000000"):"")</td>
+                <td>@pp.meteo_code</td>
+                <td>
+                    @Html.ActionLink(T.Text("Edit"), "Edit",
+                        new { id = pp.st_id }, null)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

@@ -1,0 +1,71 @@
+﻿@using Helpers
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Free meteorological data from the Czech Republic - graphs - start page</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="content-language" content="en">
+    <meta name="description" content="Free meteorological data: graphs of snow, precipitation and water stage from more than 400 locations in the Czech Republic">
+    <meta name="keywords" content="meteorological data,hydrology,snow,rain,precipitation,observation,climate,Czech Republic">
+    <meta name="author" content="Jiří Kadlec">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Public/styl_grafy_start.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Public/public_site.css")">
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+
+    <script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
+
+    @RenderSection("head", required: false)
+
+</head>
+
+<body>
+
+    <div id="globalWrapper">
+
+        <div id="header">
+            <a id="ctl00_link_start2" href="/">
+                <img src="/Content/Public/logo3.jpg" id="ctl00_logo" alt="grafy.plaveniny.cz" title="Grafy.plaveniny.cz - go to start page"></a>
+        </div>
+
+        <div id="navigace">
+            <h2>Site Navigation</h2>
+            <ul>
+                @Html.MenuItem("Start", "Index", "Home")
+                @Html.MenuItem("Graphs", "Index", "Charts")
+                @Html.MenuItem("List of stations", "Index", "Stations")
+                @Html.MenuItem("Map", "Index", "Map")
+                @*@Html.MenuItem("About", "About", "Home")*@
+
+                @if (LangHelper.Locale == "en-US")
+                {
+                    <li><a class="cs" href="/cz/">Česky</a></li>
+                }
+                else
+                {
+                    <li><a class="en" href="/en/">English</a></li>
+                }
+            </ul>
+        </div>
+        @RenderBody()
+
+        <div id="foot">
+            <p>
+                Last update: 
+5/14/2013 &nbsp;author:&nbsp;Jiří Kadlec
+            </p>
+            <a id="toplink" href="http://toplink.miliweb.net/" title="Toplink - katalog odkazů">
+                <img src="/Content/Public/prouzek.gif" width="80" height="15" alt="Toplink - katalog odkazů"></a>
+        </div>
+
+    </div>
+    <!-- konec div globalwrapper -->
+
+
+
+</body>
+</html>

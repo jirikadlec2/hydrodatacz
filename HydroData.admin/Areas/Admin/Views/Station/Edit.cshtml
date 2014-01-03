@@ -1,0 +1,263 @@
+﻿@{
+    ViewBag.Title = "Station:Edit";
+}
+@model Data.station
+@section head
+{
+
+    <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+
+    <script>
+        $(function () {
+            //$("#river").combobox();
+
+            $("#river1").chosen().change(function () {
+                var riv_id = $(this).val();
+                $("#riv_id").val(riv_id);
+            });
+
+
+            $('#Operator1').change( function () {
+                var operator_id = $(this).val();
+                $("#operator_id").val(operator_id);
+                //alert(riv_id);
+            });
+        });
+    </script>
+
+
+    <style type="text/css">
+        #map-canvas {
+            height: 500px;
+        }
+    </style>
+
+    <script type="text/javascript"
+        src="http://www.google.com/jsapi?autoload={'modules':[{name:'maps',version:3,other_params:'sensor=false'}]}"></script>
+    <script type="text/javascript">
+       
+        function DistanceWidget(map) {
+            this.set('map', map);
+            this.set('position', map.getCenter());
+
+            var marker = new google.maps.Marker({
+                draggable: false,
+                title: '@Html.Raw(Model.st_name)'
+            });
+
+            // Bind the marker map property to the DistanceWidget map property
+            marker.bindTo('map', this);
+
+            // Bind the marker position property to the DistanceWidget position
+            // property
+            marker.bindTo('position', this);
+        }
+        DistanceWidget.prototype = new google.maps.MVCObject();
+
+
+        function init() {
+            var mapDiv = document.getElementById('map-canvas');
+            var map = new google.maps.Map(mapDiv, {
+                center: new google.maps.LatLng(@Model.lat.ToStrWithPoint(),@Model.lon.ToStrWithPoint()),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var distanceWidget = new DistanceWidget(map);
+        }
+
+        google.maps.event.addDomListener(window, 'load', init);
+    </script>
+
+
+}
+
+
+
+@ViewBag.Message
+<br />
+<br />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.ActionLink(T.Text("Back to List"), "Index")
+    <br />
+    <br />
+    <fieldset>
+        <legend>@T.Text("Edit Station"): @string.Format("{0}(ID = {1})", Model.st_name, Model.st_id)</legend>
+
+        @Html.HiddenFor(model => model.st_id)
+        <table style="width: 90%;">
+            <tr>
+                <td valign="top">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.st_seq)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.st_seq)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.st_name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.st_name)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.altitude)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.altitude)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.tok)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.tok)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.st_name2)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.st_name2)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.st_ind)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.st_ind)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.st_uri)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.st_uri)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.division_name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.division_name)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.meteo_code)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.meteo_code)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.lat)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBox("lat", Model.lat.GetValueOrDefault(0).ToString("0.000000"))
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.lon)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBox("lon", Model.lon.GetValueOrDefault(0).ToString("0.000000"))
+                    </div>
+                </td>
+
+                <td valign="top" style="width: 70%">
+
+                    <div class="editor-label">
+                        <b>Location info:</b>
+                    </div>
+                    <div class="editor-field">
+                        ID: @Html.Label("location_id", Model.location_id + "")
+                        <br />
+                        Name: @Html.Label("loc_name", Model.Location.loc_name)
+                    </div>
+
+                    <div class="editor-label">
+                        <b>River info: </b>
+                    </div>
+                    <div class="editor-field">
+                        ID: @Html.Editor("riv_id")
+                        @T.Text("Rivers"):@Html.DropDownList("river1", "--select river--")
+                        <br />
+                        @T.Text("River Name"): 
+                        @if (!string.IsNullOrWhiteSpace(Model.River.riv_name))
+                        {
+                            @Html.Label("riv_name", string.Format("{0} ({1}), {2} km", Model.River.riv_name, Model.River.recip_name,
+                                Model.River.riv_len_m.HasValue ? Model.River.riv_len_m * 0.001 : 0));
+
+                        }
+                    </div>
+
+
+                    <div class="editor-label">
+                        <b>@T.Text("Operator info"):</b>
+                    </div>
+                    <div class="editor-field">
+                        ID: @Html.Editor("operator_id")
+                        Name:@Html.DropDownList("Operator1", "--select operator--")
+                        @*Name: @Html.Label("Operator.name", Model.Operator.name)*@
+                    </div>
+
+                    <div class="editor-label" style="margin-top: 10px;">
+                        @T.Text("Station Variables"):
+                    </div>
+                    <div class="editor-field" >
+                        @{ var items = (List<Data.stationsvariable>)ViewBag.StatVars;
+                           var vars = (List<Data.variable>)ViewBag.Vars;
+                        }
+                        <table style="width: 60%;">
+                            <tr>
+                                <th>@T.Text("enabled")</th>
+                                <th>@T.Text("is public")</th>
+                                <th>@T.Text("var name")</th>
+                            </tr>
+
+                            @{
+                           for (int i = 0; i < vars.Count; i++)
+                           {
+                               bool chEnabled = false;
+                               bool chPublic = false;
+                               if (items != null) {
+                                   var currVar = items.SingleOrDefault(x => x.var_id == vars[i].var_id);
+                                   chEnabled = currVar!=null; 
+                                   chPublic  = (currVar!=null&& currVar.is_public);
+                               };
+                                <tr>
+                                    <td>
+                                        <input id="vars@(i)" name="vars" type="checkbox" value="@(vars[i].var_id)" 
+                               @(chEnabled ? "checked" : "")/>
+
+                                    </td>
+                                    <td>
+                                        <input id="publ@(i)" name="publ" type="checkbox" value="@(vars[i].var_id)" 
+                               @(chPublic ? "checked" : "")/>
+
+                                    </td>
+                                    <td>@vars[i].var_name
+
+                                    </td>
+                                </tr>
+                          
+                           }
+                            }
+                        </table>
+
+                    </div>
+                    <div class="editor-label" style="margin-bottom: 10px;">
+                        @T.Text("Google map"):
+                    </div>
+
+                    <div id="map-canvas"></div>
+                </td>
+            </tr>
+        </table>
+        <p>
+            <input type="submit" value=" @T.Text("Save")" />
+        </p>
+    </fieldset>
+}

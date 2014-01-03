@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = T.Text("title.LogIndex");
+}
+@model PetaPoco.Page<Data.logging>
+<h2>@T.Text("bodyheader.admin.log")</h2>
+
+@T.Text("page") @Model.CurrentPage @T.Text("out_of") @Model.TotalPages
+
+@Html.Partial("_PageNav", new Helpers.SPage { UrlTempl = ViewBag.PagingUrl, CurrPage = Model.CurrentPage, TotalPages = Model.TotalPages })
+
+<br />
+<table>
+    <tbody>
+        <tr style="height: 22px">
+            <th>@T.Text("th.time_utc") 
+            </th>
+            <th>@T.Text("th.text")
+            </th>
+        </tr>
+        @foreach (var pp in Model.Items)
+        {
+          
+            <tr>
+                <td>
+                    @Html.ActionLink(pp.time_utc.ToString(), "View",
+                        new { time = pp.time_utc.Ticks, pg = Request.QueryString["pg"] }, null)
+
+                </td>
+                <td>
+                    @Html.Raw(
+                    (pp.log_text != null && pp.log_text.Length > 200) ? pp.log_text.Substring(0, 200) : pp.log_text)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

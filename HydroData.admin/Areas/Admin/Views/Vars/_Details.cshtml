@@ -1,0 +1,232 @@
+﻿@model HydroData.admin.Models.ChartViewModel
+<script>
+
+    $(function () {
+        $('.date').datepicker({ dateFormat: "@Helper.DATE_FORMAT" });
+
+        $('.edit-mode').hide();
+
+        $('.edit-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('.save-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var varid = $('#varid').val();
+
+            var sid = $(this).prop('id');
+            var time = tr.find('#time_utc1').text();
+            var qid = tr.find('#qid1').val();
+            var val = tr.find('#val1').val();
+            var vacc = 0;
+            if (varid == 8) {
+                vacc = tr.find('#accval1').val();
+            }
+            $.post(
+                '@Url.Action("EditValue", "Vars")',
+                { varid: varid, sid: sid, time: time, val: val, vacc: vacc, qid: qid },
+                function (tempr) {
+                    tr.find('#val').text(val);
+                    if (varid == 8) { tr.find('#accval').text(vacc); }
+                    tr.find('#qid div').attr("class", "qicon" + qid);
+                });
+            tr.find('.edit-mode, .display-mode').toggle();
+
+        });
+
+        $('.cancel-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('#addnew').on('click', function () {
+            var d = $('#date_new').val();
+            var h = $('#hour_new').val();
+
+            var v = $('#value_new').val();
+            var sid = $('#StatId').val();
+            var varid = $('#varid').val();
+            var vacc = 0;
+            if (varid == 8) {
+                vacc = $('#value_acc_new').val();
+            }
+
+            $.post(
+                '@Url.Action("AddValue", "Vars")',
+                { varid: varid, sid: sid, date: d, hour: h, val: v, vacc: vacc },
+                function (res) {
+                    $('#f_show').submit();
+                    $('#addResult').text(res);
+                    //location.reload();
+                });
+        });
+
+        $('.del-rec').on('click', function () {
+            if (!confirm('@T.Text("text.Are you sure you want to delete the record?")')) return;
+
+            var tr = $(this).parents('tr:first');
+            var sid = $(this).prop('id');
+            var time = tr.find('#time_utc1').text();
+            var varid = $('#varid').val();
+            $.post(
+                '@Url.Action("DelValue", "Vars")',
+                { varid: varid, sid: sid, time: time },
+                function (res) {
+                    $('#f_show').submit();
+                    $('#addResult').text(res);
+                });
+
+        });
+    });
+</script>
+@{
+
+    var items = Model.Page.Items;
+
+    int[] xx;
+    float[] yy;
+    var axisXTitle = "";
+    var valDescr = Helper.Vars[Model.VarId].MeasureUnit;
+
+    if (Model.VarId == 8 || Model.VarId == 2)
+    {
+        var gr = items.GroupBy(x => x.DateTime.Date);
+        xx = gr.Select(x => x.Key.Day).ToArray();
+        yy = gr.Select(x => x.Average(k => k.ValueForCalc(Model.VarId))).ToArray();
+        axisXTitle = "Days";
+    }
+    else
+    {
+        xx = items.Select(x => x.DateTime.Hour).ToArray();
+        yy = items.Select(x => x.ValueForCalc(Model.VarId)).ToArray();
+        axisXTitle = "Hours";
+    }
+
+    //var stat = Model.Stations.FirstOrDefault(x => x.Value == Model.StatId + "");
+    var stName = "";
+    //if (stat != null) { stName = stat.Text; }
+    var chartTitle = string.Format("{0}(ID={1})", stName, Model.StatId);
+
+    var chartData = "";
+    for (int i = 0; i < xx.Length; i++)
+    {
+        chartData += string.Format("['{0}',{1}],", xx[i], yy[i].ToStrWith());
+    }
+    chartData = chartData.TrimEnd(',');
+    if (string.IsNullOrEmpty(chartData)) { chartData = "[]"; }
+}
+<script>
+    $(function () {
+        $.jqplot('chart_div',
+            [[@Html.Raw(chartData)]],
+            {
+                title: '@chartTitle',
+                show: true,
+                axes: { xaxis: { min: 0, max: 24, tickInterval: 2 } },
+                pad: 1,
+                series: [{ color: '#5FAB78' }]
+            });
+    });
+</script>
+<br />
+@Html.Hidden("varid", Model.VarId)
+
+@*@string.Format("{0}, station={1}", Model.Date, Model.StatId)*@
+
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 50%;" valign="top">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr style="height: 22px">
+                        <th style="width: 30%;">@T.Text("Time(UTC)")
+                        </th>
+                        <th style="width: 20%;">
+                            @(T.Text("Value")+ Helper.Vars[Model.VarId].ValueDescr) 
+                        </th>
+                        @if (Model.VarId == 8)
+                        { 
+                            <th>@T.Text("accuracy")
+                            </th>
+                        }
+                        <th style="width: 10%;">@T.Text("qualifier")
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.Page.Items)
+                    {
+                        <tr>
+                            <td>
+                                <span id="time_utc" class="display-mode">@item.DateTime</span>
+                                <span id="time_utc1" class="edit-mode">@item.DateTime</span>
+                            </td>
+                            <td>
+                                <span id="val" class="display-mode">@item.TextValue(Model.VarId)</span>
+                                <input class="edit-mode" id="val1" name="val1"  type="text" value="@item.ModValue(Model.VarId)" style="width:100px;">
+                                @* @Html.TextBox("val1", val, new { @class = "edit-mode", style="'width:100px;'" })*@
+                            </td>
+
+                            @if (Model.VarId == 8)
+                            { 
+                                <td>
+                                    <span id="accval" class="display-mode">@item.value_accuracy</span>
+                                    <input class="edit-mode" id="accval1" type="text" value="@item.value_accuracy" style="width:60px;">
+                                </td>
+                            }
+                            <td>
+                                <span id="qid" class="display-mode">
+                                    @*<img class="qicon@(item.qualifier_id)" />*@
+                                    <div class="qicon@(item.qualifier_id)"></div>
+                                </span>
+
+                                @Html.DropDownList("qid1", new SelectList(Helper.Qualifiers, "Key", "Value", item.qualifier_id), new { @class = "edit-mode" })
+
+                            </td>
+
+                            <td style="width: 60px;">
+                                <button class="edit-rec display-mode" id="@Model.StatId">@T.Text("Edit")</button>
+                                <button class="save-rec edit-mode" id="@Model.StatId">@T.Text("Save")</button>
+                                <button class="cancel-rec edit-mode">@T.Text("Cancel")</button>
+                            </td>
+                            <td>
+                                <button class="del-rec display-mode" id="@Model.StatId">@T.Text("Delete")</button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </td>
+        <td valign="top">
+            <div id="chart_div"></div>
+        </td>
+    </tr>
+</table>
+
+<span id="addResult"></span>
+<div style="margin-top: 15px;">
+    <table>
+        <tr>
+            <td>@T.Text("Time(UTC)")
+                <br />
+                @Html.TextBox("date_new", "", new { @class = "date" })
+            </td>
+            <td>@T.Text("Hour")
+                <br />@Html.TextBox("hour_new", null, new { @style = "width: 60px;" })</td>
+            <td>
+            <td>@T.Text("Value")
+                <br />@Html.TextBox("value_new", null, new { @style = "width: 40px;" })</td>
+            @if (Model.VarId == 8)
+            {
+                <td>@T.Text("value accuracy")
+                <br />@Html.TextBox("value_acc_new", null, new { @style = "width: 40px;" })</td>
+            }
+            <td>
+                <input type="button" id="addnew" value="@T.Text("Add Value")" />
+            </td>
+        </tr>
+    </table>
+</div>

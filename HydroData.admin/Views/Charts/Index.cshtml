@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = T.Text("title.charts");
+}
+@model HydroData.Public.Models.StationViewModel
+@section head{
+
+    <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+
+}
+
+<script>
+
+    $(function () {
+        $('.date').datepicker({ dateFormat: "yy-mm-dd" });
+
+        $.datepicker.regional['cs'] = {
+            closeText: 'Zavřít',
+            prevText: '&#x3c;Dříve',
+            nextText: 'Později&#x3e;',
+            currentText: 'Nyní',
+            monthNames: ['leden', 'únor', 'březen', 'duben', 'květen', 'červen',
+            'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
+            monthNamesShort: ['led', 'úno', 'bře', 'dub', 'kvě', 'čer',
+            'čvc', 'srp', 'zář', 'říj', 'lis', 'pro'],
+            dayNames: ['neděle', 'pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek', 'sobota'],
+            dayNamesShort: ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so'],
+            dayNamesMin: ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so'],
+            weekHeader: 'Týd',
+            dateFormat: 'dd.mm.yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+
+        @if (LangHelper.SiteLang == LangHelper.UrlLangCZ)
+        {
+            <text>$.datepicker.setDefaults($.datepicker.regional['cs']);</text>
+        }
+
+        $("#sturi").chosen();
+
+
+        $('#VarName').change(function () {
+            var vname = $(this).val();
+            if (vname != null && vname != '') {
+                $.getJSON('@Url.Action("GetStations", "Ajax")', { varname: vname },
+                    function (stat) {
+
+                        var statSelect = $('#sturi');
+                        statSelect.empty();
+                        $.each(stat, function (index, stat) {
+                            statSelect.append($('<option/>', {
+                                value: stat.value,
+                                text: stat.text
+                            }));
+                        });
+                        $("#sturi").val('').trigger("liszt:updated");
+
+                    });
+            }
+        });
+
+        $('.error').hide();
+
+        $("#f_show").submit(function (event) {
+            event.preventDefault();
+            $('.error').hide();
+
+            if ($('#VarName').val() == '') {
+                $("label[for='varname']").toggle();
+                //$('.error').toggle();
+                return false;
+            }
+            if ($('#sturi').val() == '') {
+                $("label[for='sturi']").toggle();
+                return false;
+            }
+
+            var vname = $('#VarName').val();
+            var stat = $('#sturi').val();
+            var url = '@Helper.PageUrl("charts")' + vname + '/' + stat
+                + '?startdate=' + $('#startdate').val() + '&enddate=' + $('#enddate').val();
+            window.location.href = url;
+        });
+
+
+    });
+
+</script>
+
+
+<style type="text/css">
+  
+</style>
+
+@{
+    var title = string.Format("{0}", T.Text(Model.VarPageName));
+    if (Model.Station != null)
+    {
+        var rivname = Model.Station.River.riv_name;
+        var title2 = string.IsNullOrEmpty(rivname) ? "" :
+            string.Format(" - {0}", rivname);
+
+        title = string.Format("{0}{1}, {2}",
+        T.Text(Model.VarPageName),
+        title2,
+        Model.Station.st_name);
+    }
+   
+}
+<div id="hlavni">
+
+    <h1>@Html.Raw(title) </h1>
+
+    @using (Html.BeginForm("index", "charts", FormMethod.Post, new { id = "f_show" }))
+    {
+
+        <fieldset>
+            <table style="width: 60%">
+                <tbody>
+                    <tr>
+                        <td id="p_variable">
+                            <label for="listbox_variable">
+                                @T.Text("Type of observation"):</label>
+                            <br />
+                            @Html.DropDownListFor(m => m.VarName, Model.Vars,
+                            string.Format("--{0}--", T.Text("text.SelectVariable")))
+                            <br />
+                            <label for="varname" class="error">@T.Text("Please select variable")</label>
+                        </td>
+
+                        <td>
+                            <label for="txt_station">
+                                @T.Text("Station name"):</label>
+                            <br />
+                            @Html.DropDownListFor(m => m.sturi, Model.SelectListStations, "--" + T.Text("text.SelectStation") + "--"
+                            , new { style = "width:100%;" })
+                            <br />
+
+                            <label for="sturi" class="error">@T.Text("Please select station")</label>
+
+                        </td>
+
+                        <td>
+                            @Html.ActionLink(T.Text("Stations"), "Index", "stations", new { varname = Model.VarName, Area = "" }, null)
+
+                            @*<a tabindex="3" href="../stations/water-stage/">Show list of all stations ...</a>*@
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="listbox_year">
+                                @T.Text("Start Date"):</label><br />
+                            @Html.TextBox("startdate", Model.StartDate.Value.ToString("yyyy-MM-dd"), new { @class = "date" })
+
+                        </td>
+
+                        <td>
+                            <label for="listbox_year2">
+                                @T.Text("End Date"):</label><br />
+                            @Html.TextBox("enddate", Model.EndDate.Value.ToString("yyyy-MM-dd"), new { @class = "date" })
+
+                        </td>
+
+                        <td>
+                            <span>
+                                <input type="submit" tabindex="8" value="@T.Text("show")">
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    }
+    
+
+    @if (!string.IsNullOrEmpty(ViewBag.GraphName))
+    {
+        var munit = Model.VarId == 8 ? T.Text("Days") : Helper.Vars[Model.VarId].MeasureUnit;
+        var calc = Model.VarId == 8 ? ViewBag.calc + "" : String.Format("{0:0.00}", ViewBag.calc);
+        
+        <div id="graf">
+            <img src="http://hydrodata.info/grafy/@(ViewBag.GraphName)"  alt="" title="">
+        </div>
+        
+
+        <div id="statistics">
+            <p>
+                @T.Text("Maximum"):&nbsp; 
+   @ViewBag.maxv @Html.Raw(ViewBag.MeasureUnit) (@ViewBag.maxdate)
+            </p>
+
+            <p>
+                @T.Text("Minimum"):&nbsp; 
+   @ViewBag.minv @Html.Raw(ViewBag.MeasureUnit) (@ViewBag.mindate)
+            </p>
+
+            <p>
+                @T.Text((string)ViewBag.calcTitle):&nbsp; 
+   @calc   @Html.Raw(munit)
+            </p>
+
+        </div>
+    }
+</div>
+
+@Html.ActionLink(T.Text("link to this chart"), "Index", "charts",
+                           new
+                           {
+                               varname = Model.VarName,
+                               sturi = Model.Station == null ? "" : Model.Station.UrlParm
+                           }, null)
+

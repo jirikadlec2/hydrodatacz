@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+@Html.ActionLink("Back", "Index", new { pg = Request.QueryString["pg"]})
+
+<br />
+@ViewBag.Text

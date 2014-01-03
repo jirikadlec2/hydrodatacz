@@ -1,0 +1,25 @@
+﻿@if (LangHelper.IsDefaultLocale)
+{
+    @Html.ActionLink(
+    "[ En ]",
+    ViewContext.RouteData.GetRequiredString("action"),
+    ViewContext.RouteData.GetRequiredString("controller"),
+    new { language = LangHelper.UrlLangEN },
+    null
+
+
+)
+
+}
+else
+{ 
+    @Html.ActionLink(
+    "[ CZ ]",
+    ViewContext.RouteData.GetRequiredString("action"),
+    ViewContext.RouteData.GetRequiredString("controller"),
+    new { language = LangHelper.UrlLangCZ },
+    null
+)
+}
+
+@*<span class="trans_element">Translate</span>*@

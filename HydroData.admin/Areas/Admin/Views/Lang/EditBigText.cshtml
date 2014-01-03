@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = T.Text("title.EditBigText");
+}
+@model Data.SiteBigText
+<h2>@T.Text("bodyheader.EditBigText")</h2>
+
+@using (Html.BeginForm("EditBigText", "lang", FormMethod.Post, new { id = "f_show" }))
+{
+    @:[text_cz]
+    <br />
+    <textarea name="text1" class="edit-mode" cols="100" rows="20">@Model.Text1</textarea>
+    <br />
+    
+    @:[text_en]
+    <br />
+
+    <textarea name="text0" class="edit-mode" cols="100" rows="20">@Model.Text0</textarea>
+   
+    
+    <input type="submit" name="update" value="@T.Text("Update")" />
+    
+}

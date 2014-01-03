@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Lang:Index";
+}
+@model PetaPoco.Page<Data.SiteText>
+<script>
+
+    $(function () {
+
+        $('.edit-mode').hide();
+
+        $('.edit-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('.save-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+
+            var key = $(this).prop('id');
+            var t0 = tr.find('#t0_ed').val();
+            var t1 = tr.find('#t1_ed').val();
+            $.post('@Url.Action("updatetext", "lang")',
+                 { id: key, text0: t0, text1: t1 },
+                 function (response) {
+                     tr.find('#t0').text(t0);
+                     tr.find('#t1').text(t1);
+                 });
+
+            tr.find('.edit-mode, .display-mode').toggle();
+
+        });
+
+        $('.cancel-rec').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+
+        $('.del-rec').on('click', function () {
+            if (!confirm('Are you sure you want to delete the record?')) return;
+
+            var tr = $(this).parents('tr:first');
+            var key = $(this).prop('id');
+
+            $.post('@Url.Action("deletetext", "lang")',
+                { id: key },
+                function (res) {
+                    //$('#addResult').text(res);
+                });
+
+            //location.reload(false);
+        });
+    });
+</script>
+
+<h2>@T.Text("btitle.LangIndex")</h2>
+
+@Html.ActionLink(T.Text("GoToBigTexts"), "bigtexts", "lang")
+<br />
+<br />
+@using (Html.BeginForm("index", "lang", FormMethod.Post, new { id = "f_show" }))
+{
+    <table>
+        <tr>
+            <td>@T.Text("type textid"): </td>
+            <td style="width: 250px;">
+                @Html.TextBox("textid")
+            </td>
+        </tr>
+
+    </table>
+    <br />
+    <input type="submit" name="act" value="@T.Text("find")" />
+}
+<a href="#" class="trans_element">@T.Text("add new")</a>
+
+@Html.Partial("partTranslate")
+<br />
+<br />
+
+@T.Text("page") @Model.CurrentPage @T.Text("out_of") @Model.TotalPages
+@Html.Partial("_PageNav", new Helpers.SPage { UrlTempl = ViewBag.PagingUrl, CurrPage = Model.CurrentPage, TotalPages = Model.TotalPages })
+
+<br />
+<table style="width: 70%;">
+    <tbody>
+        <tr style="height: 22px">
+            <th>[TextId]
+            </th>
+            <th>[text_en]
+            </th>
+            <th>[text_cz]
+            </th>
+        </tr>
+        @foreach (var tt in Model.Items)
+        {
+          
+            <tr>
+                <td>
+                    <span id="key" class="display-mode">@tt.TextId</span>
+                    <span id="key_ed" class="edit-mode">@tt.TextId</span>
+                </td>
+                <td>
+                    <span id="t0" class="display-mode">@tt.Text0</span>
+                    <textarea id="t0_ed" class="edit-mode" cols="30" rows="6">@tt.Text0</textarea>
+                </td>
+                <td>
+                    <span id="t1" class="display-mode">@tt.Text1</span>
+                    <textarea id="t1_ed" class="edit-mode" cols="30" rows="6">@tt.Text1</textarea>
+                </td>
+
+                <td style="width: 60px;">
+                    <button class="edit-rec display-mode">@T.Text("Edit")</button>
+                    <button class="save-rec edit-mode" id="@tt.Id">@T.Text("Save")</button>
+                    <button class="cancel-rec edit-mode">@T.Text("Cancel")</button>
+                </td>
+                <td>
+                    <button class="del-rec display-mode" id="@tt.Id">@T.Text("Delete")</button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

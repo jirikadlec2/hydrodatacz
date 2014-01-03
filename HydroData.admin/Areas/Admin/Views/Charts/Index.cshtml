@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = T.Text("chart");
+}
+@model HydroData.admin.Models.ChartViewModel
+@section head{
+
+    <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.date').datepicker({
+            changeYear: true, changeMonth: true, dateFormat: "@Helper.DATE_FORMAT"
+        });
+
+        $("#upfile1").click(function () {
+            $("#file1").trigger('click');
+        });
+
+        //$("#StatId").combobox();
+        $("#StatId").chosen();
+
+        $('#VarId').change(function () {
+            //$(this).parent('form:first').submit(); //autopostback
+            $('#f_show').submit();
+        });
+
+
+        $('.next').click(function (ev) {
+            var input = $("<input>").attr("type", "hidden").attr("name", "act").val("next");
+            $('#f_show').append($(input));
+            $('#f_show').submit();
+            ev.preventDefault();
+        })
+        $('.prev').click(function (ev) {
+            var input = $("<input>").attr("type", "hidden").attr("name", "act").val("prev");
+            $('#f_show').append($(input));
+            $('#f_show').submit();
+            ev.preventDefault();
+        })
+    });
+</script>
+
+@{
+    var gr1 = Model.Items.GroupBy(x => x.DateTime.Date);
+
+    var xx = gr1.Select(x => x.Key.Day).ToArray();
+    float[] yy;
+    if (Model.VarId == 1 || Model.VarId == 2)
+    {
+        yy = gr1.Select(x => x.Sum(k => k.ValueForCalc(Model.VarId))).ToArray();
+    }
+    else
+    {
+        yy = gr1.Select(x => x.Average(k => k.ValueForCalc(Model.VarId))).ToArray();
+    }
+
+    var axisXTitle = T.Text("days");
+
+    var stat = Model.Stations.FirstOrDefault(x => x.Value == Model.StatId + "");
+    var stName = "";
+    if (stat != null) { stName = stat.Text; }
+    var chartTitle = string.Format("{0}(ID={1})", stName, Model.StatId);
+
+    var chartData = "";
+    for (int i = 0; i < xx.Length; i++)
+    {
+        chartData += string.Format("['{0}',{1}],", xx[i], yy[i].ToStrWith());
+    }
+    
+}
+
+<script type="text/javascript">
+    google.load('visualization', '1.0', { 'packages': ['corechart'] });
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'day');
+        data.addColumn('number', '@T.Text(Helper.Vars[Model.VarId].MeasureUnit)');
+        data.addRows([
+                  @Html.Raw(chartData.TrimEnd(','))
+        ]);
+
+        var options = {
+            'title': '@Html.Raw(chartTitle)',
+            'width': 800,
+            'height': 400,
+            'hAxis': { title: '@axisXTitle' }
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+<h2>@T.Text("bodytitle.chart")</h2> @Model.Date.Value.ToShortDateString()
+@using (Html.BeginForm("Index", "Charts", FormMethod.Post, new { id = "f_show", enctype = "multipart/form-data" }))
+{
+    <table style="width: 70%;">
+        <tr>
+            <td style="width: 30%;">@T.Text("text.SelectVariable"):</td>
+            <td>@Html.DropDownListFor(m => m.VarId, Model.Vars, string.Format("--{0}--", T.Text("text.SelectVariable")))</td>
+
+        </tr>
+        <tr>
+            <td>@T.Text("text.SelectStation"):</td>
+            <td>@Html.DropDownListFor(m => m.StatId, Model.Stations, "--" + T.Text("text.SelectStation") + "--")</td>
+
+        </tr>
+        <tr>
+            <td>@T.Text("text.Date"):</td>
+            <td>
+                <input class="date" name="date" type="text" value="@Model.Date.Value.ToShortDateString()"/>
+                @*@Html.TextBox("date", Model.Date.Value.ToShortDateString(), new { @class = "date" })*@
+            </td>
+
+        </tr>
+    </table>
+    <input type="submit" name="show" value="@T.Text("show")" />
+    <table style="width: 70%;">
+        <tr>
+            <td>
+                <input type="submit" name="download" value="@T.Text("text.downloaddata")" />
+            </td>
+            <td>
+                @T.Text("text.SelectFile"):
+                @*<a href="#" id="upfile1" class="button-link">@T.Text("select")</a>*@
+                @*<input type="file" id="file1"  name="file1" style="display:none" />*@
+                <input type="file" id="file1"  name="file1" />
+                <br />
+                <input type="submit" name="upload" value="@T.Text("text.uploaddatafile")" />
+            </td>
+        </tr>
+
+    </table>
+}
+
+
+@{
+    var page = "";
+    if (Model.VarId > 0)
+    {
+        page = Helper.Vars[Model.VarId].PageName;
+        
+    @Html.ActionLink(T.Text("GoToEdit"), "Index", "Vars",
+                        new { varid = Model.VarId, statid = Model.StatId, date = Model.Date.Value.ToShortDateString() }, null)
+    <br />
+@*
+    @Html.ActionLink("Download Data File", "DownloadData", new { varid = Model.VarId, statid = Model.StatId }, null)
+       *@                 
+
+    }
+}
+<div style="margin-top: 15px;">
+    <a href="#" class="button-link prev">@T.Text("text.PrevMonth")</a>
+    <a href="#" class="button-link next">@T.Text("text.NextMonth")</a>
+</div>
+
+<div style="margin-top: 15px;">
+
+    <table style="width: 100%;">
+        <tr>
+            <td style="vertical-align: top;">
+                <div id="chart_div"></div>
+            </td>
+            <td style="vertical-align: top;">
+                <table>
+                    <tr>
+                        <th>@T.Text("Summary"): @Model.Date.Value.ToString("M/yyyy")</th>
+
+                    </tr>
+                    @if (yy.Any())
+                    { 
+                        <tr>
+                            <td><b>@T.Text("Max"):</b> @yy.Max().ToStr()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>@T.Text("Min"):</b> @yy.Min().ToStr()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>@T.Text("Avg"):</b> @yy.Average().ToStr()</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>@T.Text("Sum"):</b> @yy.Sum().ToStr()</td>
+
+                        </tr>
+                    }
+                </table>
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+
+<div style="margin-top: 15px;">
+    @Model.VarName
+    <table>
+        <tbody>
+            @{int count = 0;}
+
+            @foreach (var gr in Model.Items.GroupBy(x => x.DateTime.Date))
+            {
+                if ((count++) % 10 == 0)
+                { 
+                <tr style="height: 22px">
+                    <th>@T.Text("Date")/@T.Text("Hour")
+                    </th>
+
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        <th>
+                            @i
+                        </th>
+                    }
+                </tr>
+                }
+            
+                <tr>
+                    <td>
+                        <span id="time_utc1" class="display-mode">@gr.Key.ToShortDateString()</span>
+
+                    </td>
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        <td>
+                            <span id="val" class="display-mode">
+                                @{var v = gr.FirstOrDefault(x => x.DateTime >= gr.Key.AddHours(i) && x.DateTime < gr.Key.AddHours(i + 1));}
+                                @if (v != null)
+                                { 
+                                    @v.TextValue(Model.VarId)
+                                }
+                            </span>
+
+                        </td>
+                    }
+                    <td>
+                        @Html.ActionLink(T.Text("Edit"), "Index", "Vars",
+                        new { varid = Model.VarId, statid = Model.StatId, date = gr.Key.ToShortDateString() }, null)
+                    </td>
+                </tr>
+            
+            }
+        </tbody>
+    </table>
+</div>

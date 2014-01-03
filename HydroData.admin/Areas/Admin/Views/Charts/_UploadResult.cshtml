@@ -1,0 +1,36 @@
+﻿@model bool
+@Html.ActionLink(T.Text("link.GoToChart"), "Index", "Charts",
+                        new { varid = TempData["varid"], statid = TempData["statid"] }, null)
+
+<br />
+<br />
+<span style="color: green"></span>
+@Html.Raw(ViewBag.result)
+
+@if (Model)
+{
+    using (Html.BeginForm("ProcessFile", "Charts", FormMethod.Post))
+    {
+    <div style="margin-top: 15px;">
+        <table style="width: 50%;">
+            <tr>
+                <td><b>@T.Text("filesize")</b>:</td>
+                <td>@TempData["uploadfile"]</td>
+            </tr>
+            <tr>
+                <td><b>@T.Text("variable name")</b>:</td>
+                <td>@TempData["varid"] (@TempData["var_name"])</td>
+            </tr>
+            <tr>
+                <td><b>@T.Text("station name")</b>:</td>
+                <td>@TempData["statid"] (@TempData["stat_name"])</td>
+            </tr>
+        </table>
+        <input type="hidden" name="varid" value="@TempData["varid"]" />
+        <input type="hidden" name="sid" value="@TempData["statid"]" />
+
+        @Html.CheckBox("overwrite", false) <span>@T.Text("text.Overwrite_existing_values")</span>
+    </div>
+    <input type="submit"  value="@T.Text("text.processdatafile")" />
+    }
+}

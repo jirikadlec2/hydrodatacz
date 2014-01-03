@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section head{
+    <script src="../../Scripts/chosen.jquery.min.js"></script>
+    <link href="../../Content/chosen.css" rel="stylesheet" />
+    <script>
+
+        $(function () {
+            $("#river1").chosen();
+        });
+    </script>
+}
+<div class="ui-widget">
+    river name: @Html.DropDownList("river1", "--select river--")
+
+    <br />
+    river id:<input id="riv_id" />
+</div>
