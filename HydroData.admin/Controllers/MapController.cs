@@ -22,7 +22,7 @@ namespace HydroData.Public.Controllers
 		public ActionResult Index(string varname, string address)
 		{
 			var model = new StationViewModel();
-			if (string.IsNullOrEmpty(varname)) varname = Helper.GetRouteVar(4);
+			//if (string.IsNullOrEmpty(varname)) varname = Helper.GetRouteVar(4);
 			InitModel(varname, model);
 
 			//chached db query
