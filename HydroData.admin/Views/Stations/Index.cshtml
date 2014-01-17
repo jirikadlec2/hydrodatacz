@@ -37,8 +37,10 @@
         </fieldset>
     }
     @{
-        var grid = new WebGrid(Model.Stations);
-
+        var rws = Convert.ToInt32(Helper.AppConfigValue("StationsTableRowsPerPage"));
+        
+        var grid = new WebGrid(source: Model.Stations, rowsPerPage: rws);
+         
         List<WebGridColumn> cols;
 
         cols = new List<WebGridColumn> 

@@ -44,7 +44,8 @@ namespace Data
 				var sql = @"select s.*,l.*,r.*,o.* from stations s
 left join locations l on s.location_id = l.loc_id
 left join river r on s.riv_id = r.riv_id
-left join operator o on s.operator_id = o.id";
+left join operator o on s.operator_id = o.id
+order by s.st_name";
 
 				data = HydroData.Fetch<station, location, river, @operator, station>(
 			   (s, l, r, o) => { s.Location = l; s.River = r; s.Operator = o; return s; }

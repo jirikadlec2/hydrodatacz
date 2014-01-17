@@ -18,7 +18,7 @@ namespace HydroData.Public.Controllers
 		{
 			var model = new StationViewModel();
 			InitModel(varname, model);
-			model.Stations = Repo.GetStationsWithObservDates(model.VarId, true);
+			model.Stations = Repo.GetStationsWithObservDates(model.VarId, false);
 
 			return View(model);
 		}
