@@ -26,26 +26,39 @@
             <div>
                 <span>
                     <label id="lbl_station_type" for="select_station_type">
-                        @T.Text("Type of observation"):</label>
-                    @Html.DropDownListFor(m => m.VarName, Model.Vars, string.Format("--{0}--", T.Text("text.SelectVariable")))
+                        @T.Text("Type of observation"):
+                    </label>
+                    <table style="width:70%;">
+                        <tr>
+
+                            @foreach (var vr in Helper.Vars.Values)
+                            {
+                                <td>
+                                    @Html.ActionLink(T.Text(vr.PageName), "Index", "stations",
+                                       new
+                                       {
+                                           varname = vr.TableName,
+                                       }, null)
+                                </td>
+                            }
+                        </tr>
+                    </table>
                 </span>
 
-                <span>
-                    <input type="submit" tabindex="3" value="@T.Text("show")">
-                </span>
+
             </div>
         </fieldset>
     }
     @{
         var rws = Convert.ToInt32(Helper.AppConfigValue("StationsTableRowsPerPage"));
-        
+
         var grid = new WebGrid(source: Model.Stations, rowsPerPage: rws);
-         
+
         List<WebGridColumn> cols;
 
-        cols = new List<WebGridColumn> 
-        { 
-            grid.Column( columnName:"st_name",header: T.Text("Station")), 
+        cols = new List<WebGridColumn>
+        {
+            grid.Column( columnName:"st_name",header: T.Text("Station")),
             grid.Column("altitude", header:T.Text("Elevation")+" (m)"),
             grid.Column("StartObservDate", header:T.Text("Start date")),
             grid.Column("LastObservDate", header:T.Text("End date")),
@@ -72,7 +85,7 @@
         {
             cols.Insert(1, grid.Column("River.riv_name", header: T.Text("River")));
         }
-     
+
     }
     <div style="margin-top: 15px;">
         @grid.GetHtml(columns: cols)
