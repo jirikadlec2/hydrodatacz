@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = T.Text("title.map");
+    ViewBag.Title = string.Format("{0} - {1}", T.Text("title.map"), T.Text(Model.VarPageName));
 }
 
 @model HydroData.Public.Models.StationViewModel

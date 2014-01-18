@@ -180,12 +180,54 @@
     <Compile Include="Areas\Admin\Models\RadarViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TemprViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schedule\update_DailyRainfall.aspx.cs">
+      <DependentUpon>update_DailyRainfall.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_DailyRainfall.aspx.designer.cs">
+      <DependentUpon>update_DailyRainfall.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Schedule\update_database.aspx.cs">
       <DependentUpon>update_database.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Schedule\update_database.aspx.designer.cs">
       <DependentUpon>update_database.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_Discharge.aspx.cs">
+      <DependentUpon>update_Discharge.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_Discharge.aspx.designer.cs">
+      <DependentUpon>update_Discharge.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_HourlyRainfall.aspx.cs">
+      <DependentUpon>update_HourlyRainfall.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_HourlyRainfall.aspx.designer.cs">
+      <DependentUpon>update_HourlyRainfall.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_Snow.aspx.cs">
+      <DependentUpon>update_Snow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_Snow.aspx.designer.cs">
+      <DependentUpon>update_Snow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_Stage.aspx.cs">
+      <DependentUpon>update_Stage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_Stage.aspx.designer.cs">
+      <DependentUpon>update_Stage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_Temperature.aspx.cs">
+      <DependentUpon>update_Temperature.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_Temperature.aspx.designer.cs">
+      <DependentUpon>update_Temperature.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -236,7 +278,13 @@
     <Content Include="Areas\MvcMembership\Views\UserAdministration\Index.cshtml" />
     <Content Include="Areas\MvcMembership\Views\UserAdministration\Details.cshtml" />
     <Content Include="Areas\MvcMembership\Views\UserAdministration\CreateUser.cshtml" />
+    <Content Include="Schedule\update_DailyRainfall.aspx" />
     <Content Include="Schedule\update_database.aspx" />
+    <Content Include="Schedule\update_Discharge.aspx" />
+    <Content Include="Schedule\update_HourlyRainfall.aspx" />
+    <Content Include="Schedule\update_Snow.aspx" />
+    <Content Include="Schedule\update_Stage.aspx" />
+    <Content Include="Schedule\update_Temperature.aspx" />
     <Content Include="Scripts\jquery.ui.datepicker-cs.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Views\Home\Index.cshtml" />
