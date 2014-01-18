@@ -8,40 +8,30 @@
     <link href="@Url.Content("~/Content/chosen/chosen.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"
-        type="text/javascript"></script>
+            type="text/javascript"></script>
 
 }
-<script>
-    $(function () {
-         
-        $("#f_show").submit(function (event) {
-            event.preventDefault();
-            var vname = $('#VarName').val();
 
-            var url = '@Helper.PageUrl("map")' + vname;
-
-            window.location.href = url;
-        });
-
-    });
-
-</script>
 <div>
     <h1>Map </h1>
-    @using (Html.BeginForm("Index", "map", FormMethod.Post, new { id = "f_show" }))
-    {
-        <table style="width: 60%;">
-            <tr>
-                <td style="width: 30%;">@T.Text("text.SelectVariable"):</td>
-                <td>
-                    @Html.DropDownListFor(m => m.VarName, Model.Vars, string.Format("--{0}--", T.Text("text.SelectVariable")))
 
+    @T.Text("text.SelectVariable")
+    <table style="width:70%;">
+        <tr>
+
+            @foreach (var vr in Helper.Vars.Values)
+            {
+                <td>
+                    @Html.ActionLink(T.Text(vr.PageName), "index", "map",
+                                       new
+                                       {
+                                           varname = vr.TableName,
+                                       }, null)
                 </td>
-                <td style="width: 30%;">
-                    <input type="submit" name="show" value="@T.Text("show")" /></td>
-            </tr>
-        </table>
-    }
+            }
+        </tr>
+    </table>
+
     @using (Html.BeginForm("findbyaddress", "map", FormMethod.Post, new { id = "f_addr" }))
     {
         <table style="width: 60%;">
@@ -51,16 +41,17 @@
                     @Html.TextBox("address")
                 </td>
                 <td style="width: 30%;">
-                    <input type="submit" name="findbyaddr" value="@T.Text("findbyaddress")" /></td>
+                    <input type="submit" name="findbyaddr" value="@T.Text("findbyaddress")" />
+                </td>
 
             </tr>
         </table>
-        
+
     }
     @if (Helper.IsAdmin(User.Identity.Name))
-    { 
+    {
         <text>
-        @T.Text("query time") : @ViewBag.elapsed
+            @T.Text("query time") : @ViewBag.elapsed
         </text>
     }
     <br />
@@ -104,7 +95,7 @@
             slat = loc[0];
             slon = loc[1];
         }
-    
+
     }
     <script type="text/javascript">
         var locations = [@Html.Raw(data.TrimEnd(','))];
