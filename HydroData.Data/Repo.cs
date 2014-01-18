@@ -196,16 +196,17 @@ order by s.st_name";
         public static int InsertNewStationsIntoObservDates(int varid)
         {
             var db = HydroData;
-            var sql = @"SELECT station_id FROM " + Helper.Vars[varid].TableName + " group by station_id";
-            var data = HydroData.Fetch<int>(sql);
+            var sql = @"SELECT station_id as stid , MIN(time_utc) as start_date  FROM " + Helper.Vars[varid].TableName + " group by station_id";
+            var data = HydroData.Fetch<observstationdate>(sql);
             var obsStations = HydroData.Fetch<int>("SELECT stid FROM [observstationdates] where varid=@0 group by stid", varid);
 
-            foreach (var st in data.Except(obsStations))
+            foreach (var st in data.Where(x => !obsStations.Contains(x.stid)))
             {
                 db.Insert(new observstationdate
                 {
-                    stid = st,
+                    stid = st.stid,
                     varid = varid,
+                    start_date = st.start_date,
                 });
             }
             return 1;
