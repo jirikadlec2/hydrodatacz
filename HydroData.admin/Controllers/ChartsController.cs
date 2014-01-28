@@ -17,7 +17,7 @@ namespace HydroData.Public.Controllers
         public ActionResult Index(string varname, string sturi, DateTime? startdate, DateTime? enddate)
         {
 
-           
+
             var model = CreateAndInitModel(varname, sturi);
 
             if (startdate.HasValue) model.StartDate = startdate.Value;
@@ -67,9 +67,13 @@ namespace HydroData.Public.Controllers
                 expr1 = string.Format("avg({0})", cname);
                 calcTitle = "Average";
             }
+            string sql = "";
 
-            var sql = string.Format(@"SELECT COALESCE({0}, 0)  FROM {1} where station_id=@0 
-			and time_utc > @1 and time_utc < @2 and {2} > 0", expr1, tname, cname);
+            //for temperature not need >0
+            if (varid == 16)
+                sql = string.Format(@"SELECT COALESCE({0}, 0)  FROM {1} where station_id=@0 and time_utc > @1 and time_utc < @2", expr1, tname);
+            else
+                sql = string.Format(@"SELECT COALESCE({0}, 0)  FROM {1} where station_id=@0 and time_utc > @1 and time_utc < @2 and {2} > 0", expr1, tname, cname);
 
             var sqlb = PetaPoco.Sql.Builder.Append(sql, model.StatId, model.StartDate, model.EndDate);
             var res = db.ExecuteScalar<float>(sqlb);
@@ -87,7 +91,9 @@ namespace HydroData.Public.Controllers
 
             var sql = DBHelper.SQLGetValByVarAndStat(model.VarId, model.StatId);
             sql = sql.Where(" time_utc>=@0 and time_utc<=@1", model.StartDate, model.EndDate);
-            sql = sql.Where(string.Format("{0} >0", cname));
+            
+            if (model.VarId != 16)
+                sql = sql.Where(string.Format("{0} >0", cname));
 
             var list = db.Query<TableValue>(sql);
             if (list.Any())
