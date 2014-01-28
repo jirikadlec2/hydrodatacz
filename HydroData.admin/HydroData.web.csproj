@@ -187,13 +187,6 @@
     <Compile Include="Schedule\update_DailyRainfall.aspx.designer.cs">
       <DependentUpon>update_DailyRainfall.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Schedule\update_database.aspx.cs">
-      <DependentUpon>update_database.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Schedule\update_database.aspx.designer.cs">
-      <DependentUpon>update_database.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Schedule\update_Discharge.aspx.cs">
       <DependentUpon>update_Discharge.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -207,6 +200,13 @@
     </Compile>
     <Compile Include="Schedule\update_HourlyRainfall.aspx.designer.cs">
       <DependentUpon>update_HourlyRainfall.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\update_obsdates.aspx.cs">
+      <DependentUpon>update_obsdates.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Schedule\update_obsdates.aspx.designer.cs">
+      <DependentUpon>update_obsdates.aspx</DependentUpon>
     </Compile>
     <Compile Include="Schedule\update_Snow.aspx.cs">
       <DependentUpon>update_Snow.aspx</DependentUpon>
@@ -279,14 +279,15 @@
     <Content Include="Areas\MvcMembership\Views\UserAdministration\Details.cshtml" />
     <Content Include="Areas\MvcMembership\Views\UserAdministration\CreateUser.cshtml" />
     <Content Include="Schedule\update_DailyRainfall.aspx" />
-    <Content Include="Schedule\update_database.aspx" />
     <Content Include="Schedule\update_Discharge.aspx" />
     <Content Include="Schedule\update_HourlyRainfall.aspx" />
+    <Content Include="Schedule\update_obsdates.aspx" />
     <Content Include="Schedule\update_Snow.aspx" />
     <Content Include="Schedule\update_Stage.aspx" />
     <Content Include="Schedule\update_Temperature.aspx" />
     <Content Include="Scripts\jquery.ui.datepicker-cs.js" />
     <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\site\markerclusterer.js" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Charts\Index.cshtml" />
     <Content Include="Views\Stations\Index.cshtml" />

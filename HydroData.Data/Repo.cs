@@ -193,13 +193,15 @@ order by s.st_name";
             var data = HydroData.Fetch<ObservDate>(sql).ToDictionary(x => x.Sid, x => x.Date);
             return data;
         }
+        
         public static int InsertNewStationsIntoObservDates(int varid)
         {
             var db = HydroData;
             var sql = @"SELECT station_id as stid , MIN(time_utc) as start_date  FROM " + Helper.Vars[varid].TableName + " group by station_id";
             var data = HydroData.Fetch<observstationdate>(sql);
             var obsStations = HydroData.Fetch<int>("SELECT stid FROM [observstationdates] where varid=@0 group by stid", varid);
-
+           
+            int inserted = 0;
             foreach (var st in data.Where(x => !obsStations.Contains(x.stid)))
             {
                 db.Insert(new observstationdate
@@ -208,8 +210,10 @@ order by s.st_name";
                     varid = varid,
                     start_date = st.start_date,
                 });
+                inserted++;
             }
-            return 1;
+           
+            return inserted;
         }
         public static bool UpdateLastObservationDates(int varid)
         {
