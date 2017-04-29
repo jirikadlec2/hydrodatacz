@@ -130,7 +130,7 @@ namespace Data
 	
 
     
-	[TableName("SiteBigTexts")]
+	[TableName("plaveninycz.SiteBigTexts")]
 	[PrimaryKey("Id")]
 	[ExplicitColumns]
     public partial class SiteBigText : Hydro.Record<SiteBigText>  
@@ -227,7 +227,7 @@ namespace Data
 
 	}
     
-	[TableName("river")]
+	[TableName("plaveninycz.river")]
 	[PrimaryKey("riv_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class river : Hydro.Record<river>  
@@ -369,7 +369,7 @@ namespace Data
 
 	}
     
-	[TableName("__MigrationHistory")]
+	[TableName("plaveninycz.__MigrationHistory")]
 	[PrimaryKey("MigrationId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class __MigrationHistory : Hydro.Record<__MigrationHistory>  
@@ -421,7 +421,7 @@ namespace Data
 
 	}
     
-	[TableName("longrectypes")]
+	[TableName("plaveninycz.longrectypes")]
 	[PrimaryKey("longrectype_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class longrectype : Hydro.Record<longrectype>  
@@ -473,7 +473,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Applications")]
+	[TableName("plaveninycz.aspnet_Applications")]
 	[PrimaryKey("LoweredApplicationName", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_Application : Hydro.Record<aspnet_Application>  
@@ -540,7 +540,7 @@ namespace Data
 
 	}
     
-	[TableName("locations")]
+	[TableName("plaveninycz.locations")]
 	[PrimaryKey("loc_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class location : Hydro.Record<location>  
@@ -652,7 +652,7 @@ namespace Data
 
 	}
     
-	[TableName("longrecords")]
+	[TableName("plaveninycz.longrecords")]
 	[PrimaryKey("longrec_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class longrecord : Hydro.Record<longrecord>  
@@ -719,7 +719,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Users")]
+	[TableName("plaveninycz.aspnet_Users")]
 	[PrimaryKey("ApplicationId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_User : Hydro.Record<aspnet_User>  
@@ -831,7 +831,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_SchemaVersions")]
+	[TableName("plaveninycz.aspnet_SchemaVersions")]
 	[PrimaryKey("Feature", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_SchemaVersion : Hydro.Record<aspnet_SchemaVersion>  
@@ -883,7 +883,7 @@ namespace Data
 
 	}
     
-	[TableName("variable_details")]
+	[TableName("plaveninycz.variable_details")]
 	[PrimaryKey("var_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class variable_detail : Hydro.Record<variable_detail>  
@@ -980,7 +980,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Membership")]
+	[TableName("plaveninycz.aspnet_Membership")]
 	[PrimaryKey("ApplicationId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_Membership : Hydro.Record<aspnet_Membership>  
@@ -1302,7 +1302,7 @@ namespace Data
 
 	}
     
-	[TableName("my_table")]
+	[TableName("plaveninycz.my_table")]
 	[ExplicitColumns]
     public partial class my_table : Hydro.Record<my_table>  
     {
@@ -1338,7 +1338,7 @@ namespace Data
 
 	}
     
-	[TableName("radarnetworks")]
+	[TableName("plaveninycz.radarnetworks")]
 	[PrimaryKey("radarnet_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class radarnetwork : Hydro.Record<radarnetwork>  
@@ -1375,7 +1375,7 @@ namespace Data
 
 	}
     
-	[TableName("river_old")]
+	[TableName("plaveninycz.river_old")]
 	[PrimaryKey("riv_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class river_old : Hydro.Record<river_old>  
@@ -1517,7 +1517,7 @@ namespace Data
 
 	}
     
-	[TableName("stations")]
+	[TableName("plaveninycz.stations")]
 	[PrimaryKey("st_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class station : Hydro.Record<station>  
@@ -1749,7 +1749,7 @@ namespace Data
 
 	}
     
-	[TableName("radarfiles")]
+	[TableName("plaveninycz.radarfiles")]
 	[PrimaryKey("obs_time", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class radarfile : Hydro.Record<radarfile>  
@@ -1786,7 +1786,7 @@ namespace Data
 
 	}
     
-	[TableName("operator")]
+	[TableName("plaveninycz.operator")]
 	[PrimaryKey("id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class @operator : Hydro.Record<@operator>  
@@ -1853,7 +1853,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Profile")]
+	[TableName("plaveninycz.aspnet_Profile")]
 	[PrimaryKey("UserId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_Profile : Hydro.Record<aspnet_Profile>  
@@ -1935,7 +1935,7 @@ namespace Data
 
 	}
     
-	[TableName("configuration")]
+	[TableName("plaveninycz.configuration")]
 	[PrimaryKey("config_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class configuration : Hydro.Record<configuration>  
@@ -1987,7 +1987,7 @@ namespace Data
 
 	}
     
-	[TableName("languages")]
+	[TableName("plaveninycz.languages")]
 	[PrimaryKey("lang_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class language : Hydro.Record<language>  
@@ -2039,7 +2039,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Roles")]
+	[TableName("plaveninycz.aspnet_Roles")]
 	[PrimaryKey("ApplicationId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_Role : Hydro.Record<aspnet_Role>  
@@ -2121,7 +2121,7 @@ namespace Data
 
 	}
     
-	[TableName("menu_categories")]
+	[TableName("plaveninycz.menu_categories")]
 	[PrimaryKey("id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class menu_category : Hydro.Record<menu_category>  
@@ -2158,7 +2158,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_UsersInRoles")]
+	[TableName("plaveninycz.aspnet_UsersInRoles")]
 	[PrimaryKey("UserId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_UsersInRole : Hydro.Record<aspnet_UsersInRole>  
@@ -2195,7 +2195,7 @@ namespace Data
 
 	}
     
-	[TableName("temperature")]
+	[TableName("plaveninycz.temperature")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class temperature : Hydro.Record<temperature>  
@@ -2262,7 +2262,7 @@ namespace Data
 
 	}
     
-	[TableName("menu_items")]
+	[TableName("plaveninycz.menu_items")]
 	[PrimaryKey("id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class menu_item : Hydro.Record<menu_item>  
@@ -2329,7 +2329,7 @@ namespace Data
 
 	}
     
-	[TableName("menu_details")]
+	[TableName("plaveninycz.menu_details")]
 	[PrimaryKey("menuitem_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class menu_detail : Hydro.Record<menu_detail>  
@@ -2381,7 +2381,7 @@ namespace Data
 
 	}
     
-	[TableName("stage")]
+	[TableName("plaveninycz.stage")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class stage : Hydro.Record<stage>  
@@ -2448,7 +2448,7 @@ namespace Data
 
 	}
     
-	[TableName("discharge")]
+	[TableName("plaveninycz.discharge")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class discharge : Hydro.Record<discharge>  
@@ -2515,7 +2515,7 @@ namespace Data
 
 	}
     
-	[TableName("snow")]
+	[TableName("plaveninycz.snow")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class snow : Hydro.Record<snow>  
@@ -2597,7 +2597,7 @@ namespace Data
 
 	}
     
-	[TableName("stationsvariables")]
+	[TableName("plaveninycz.stationsvariables")]
 	[PrimaryKey("st_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class stationsvariable : Hydro.Record<stationsvariable>  
@@ -2664,7 +2664,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_Paths")]
+	[TableName("plaveninycz.aspnet_Paths")]
 	[PrimaryKey("ApplicationId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_Path : Hydro.Record<aspnet_Path>  
@@ -2731,7 +2731,7 @@ namespace Data
 
 	}
     
-	[TableName("rain_daily")]
+	[TableName("plaveninycz.rain_daily")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class rain_daily : Hydro.Record<rain_daily>  
@@ -2798,7 +2798,7 @@ namespace Data
 
 	}
     
-	[TableName("rain_hourly")]
+	[TableName("plaveninycz.rain_hourly")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class rain_hourly : Hydro.Record<rain_hourly>  
@@ -2865,7 +2865,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_PersonalizationAllUsers")]
+	[TableName("plaveninycz.aspnet_PersonalizationAllUsers")]
 	[PrimaryKey("PathId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_PersonalizationAllUser : Hydro.Record<aspnet_PersonalizationAllUser>  
@@ -2917,7 +2917,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_PersonalizationPerUser")]
+	[TableName("plaveninycz.aspnet_PersonalizationPerUser")]
 	[PrimaryKey("PathId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_PersonalizationPerUser : Hydro.Record<aspnet_PersonalizationPerUser>  
@@ -2999,7 +2999,7 @@ namespace Data
 
 	}
     
-	[TableName("logging")]
+	[TableName("plaveninycz.logging")]
 	[PrimaryKey("time_utc", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class logging : Hydro.Record<logging>  
@@ -3036,7 +3036,7 @@ namespace Data
 
 	}
     
-	[TableName("periods")]
+	[TableName("plaveninycz.periods")]
 	[PrimaryKey("period_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class period : Hydro.Record<period>  
@@ -3118,7 +3118,7 @@ namespace Data
 
 	}
     
-	[TableName("observations2")]
+	[TableName("plaveninycz.observations2")]
 	[PrimaryKey("period_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class observations2 : Hydro.Record<observations2>  
@@ -3170,7 +3170,7 @@ namespace Data
 
 	}
     
-	[TableName("qualifiers")]
+	[TableName("plaveninycz.qualifiers")]
 	[PrimaryKey("qualifier_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class qualifier : Hydro.Record<qualifier>  
@@ -3207,7 +3207,7 @@ namespace Data
 
 	}
     
-	[TableName("aspnet_WebEvent_Events")]
+	[TableName("plaveninycz.aspnet_WebEvent_Events")]
 	[PrimaryKey("EventId", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class aspnet_WebEvent_Event : Hydro.Record<aspnet_WebEvent_Event>  
@@ -3439,7 +3439,7 @@ namespace Data
 
 	}
     
-	[TableName("sitemap")]
+	[TableName("plaveninycz.sitemap")]
 	[PrimaryKey("id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class sitemap : Hydro.Record<sitemap>  
@@ -3506,7 +3506,7 @@ namespace Data
 
 	}
     
-	[TableName("sitemap_details")]
+	[TableName("plaveninycz.sitemap_details")]
 	[PrimaryKey("sitemapnode_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class sitemap_detail : Hydro.Record<sitemap_detail>  
@@ -3588,7 +3588,7 @@ namespace Data
 
 	}
     
-	[TableName("variables")]
+	[TableName("plaveninycz.variables")]
 	[PrimaryKey("var_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class variable : Hydro.Record<variable>  
@@ -3715,7 +3715,7 @@ namespace Data
 
 	}
     
-	[TableName("observstationdates")]
+	[TableName("plaveninycz.observstationdates")]
 	[PrimaryKey("stid", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class observstationdate : Hydro.Record<observstationdate>  
@@ -3782,7 +3782,7 @@ namespace Data
 
 	}
     
-	[TableName("SiteTexts")]
+	[TableName("plaveninycz.SiteTexts")]
 	[PrimaryKey("Id")]
 	[ExplicitColumns]
     public partial class SiteText : Hydro.Record<SiteText>  
@@ -3879,7 +3879,7 @@ namespace Data
 
 	}
     
-	[TableName("hydrodata")]
+	[TableName("plaveninycz.hydrodata")]
 	[PrimaryKey("station_id", autoIncrement=false)]
 	[ExplicitColumns]
     public partial class hydrodatum : Hydro.Record<hydrodatum>  

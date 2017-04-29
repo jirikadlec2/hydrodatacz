@@ -101,7 +101,7 @@ public class Helper
 
 	public static VariableInfo FindVarByName(string varname)
 	{
-		return Helper.VarsTable.FirstOrDefault(x => x.TableName == varname.ToLower());
+		return Helper.VarsTable.FirstOrDefault(x => x.TableName == "plaveninycz." + varname.ToLower());
 	}
 
 	#endregion

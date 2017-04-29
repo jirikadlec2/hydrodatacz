@@ -41,10 +41,10 @@ namespace Data
 
             if (data == null)
             {
-                var sql = @"select s.*,l.*,r.*,o.* from stations s
-left join locations l on s.location_id = l.loc_id
-left join river r on s.riv_id = r.riv_id
-left join operator o on s.operator_id = o.id
+                var sql = @"select s.*,l.*,r.*,o.* from plaveninycz.stations s
+left join plaveninycz.locations l on s.location_id = l.loc_id
+left join plaveninycz.river r on s.riv_id = r.riv_id
+left join plaveninycz.operator o on s.operator_id = o.id
 order by s.st_name";
 
                 data = HydroData.Fetch<station, location, river, @operator, station>(
@@ -224,7 +224,7 @@ order by s.st_name";
             var sql = @"
 update 	t1
 	set	t1.last_date	= (select max(time_utc) from {0} t2 where t2.station_id = t1.stid)
-from	observstationdates t1 where t1.varid={1}";
+from	plaveninycz.observstationdates t1 where t1.varid={1}";
 
 
             var varinf = Helper.Vars[varid];
@@ -242,7 +242,7 @@ from	observstationdates t1 where t1.varid={1}";
 
             if (data == null)
             {
-                data = HydroData.Fetch<river>("select riv_id, riv_name from river order by riv_name asc");
+                data = HydroData.Fetch<river>("select riv_id, riv_name from plaveninycz.river order by riv_name asc");
                 if (data.Any()) Cache.Set(key, data, cacheTime);
             }
 
@@ -253,10 +253,10 @@ from	observstationdates t1 where t1.varid={1}";
         {
             var st = HydroData.Fetch<station, location, river, @operator, station>(
                 (s, l, r, o) => { s.Location = l; s.River = r; s.Operator = o; return s; },
-            @"select s.*,l.*,r.*,o.* from stations s
-left join locations l on s.location_id = l.loc_id
-left join river r on s.riv_id = r.riv_id
-left join operator o on s.operator_id = o.id
+            @"select s.*,l.*,r.*,o.* from plaveninycz.stations s
+left join plaveninycz.locations l on s.location_id = l.loc_id
+left join plaveninycz.river r on s.riv_id = r.riv_id
+left join plaveninycz.operator o on s.operator_id = o.id
             where st_id=@0", sid);
 
             return st.FirstOrDefault();
@@ -288,12 +288,12 @@ left join operator o on s.operator_id = o.id
                 else
                 {
                     old_vars.Remove(ov);
-                    db.Execute("update stationsvariables set is_public=@2 where st_id=@0 and var_id=@1", sid, var, isPubl);
+                    db.Execute("update plaveninycz.stationsvariables set is_public=@2 where st_id=@0 and var_id=@1", sid, var, isPubl);
                 }
             }
             foreach (var item in old_vars)
             {
-                db.Execute("delete from stationsvariables where st_id=@0 and var_id=@1", sid, item.var_id);
+                db.Execute("delete from plaveninycz.stationsvariables where st_id=@0 and var_id=@1", sid, item.var_id);
             }
         }
 
