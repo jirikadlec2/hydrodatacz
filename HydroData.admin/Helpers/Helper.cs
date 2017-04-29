@@ -96,7 +96,7 @@ public class Helper
 
 	public static string GetRouteVar(int vid)
 	{
-		return Helper.Vars[vid].TableName;
+		return Helper.Vars[vid].TableName.Substring(Helper.Vars[vid].TableName.IndexOf(".") + 1);
 	}
 
 	public static VariableInfo FindVarByName(string varname)
