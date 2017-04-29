@@ -35,6 +35,8 @@ namespace HydroData.Public.Controllers
             {
                 model.VarId = varid;
                 model.VarName = Helper.Vars[model.VarId].TableName;
+                // quick fix..
+                model.VarName = model.VarName.Substring(model.VarName.IndexOf(".") + 1);
                 model.VarPageName = Helper.Vars[model.VarId].PageName;
             }
             model.StartDate = Helper.CurrentDate.AddYears(-1);
